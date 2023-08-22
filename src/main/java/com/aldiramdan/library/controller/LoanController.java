@@ -40,7 +40,7 @@ public class LoanController {
         return ResponseEntity.status(responseData.getCode()).body(responseData);
     }
 
-    @PutMapping("/status/{id}")
+    @PatchMapping("/status/{id}")
     public ResponseEntity<ResponseData> updateStatus(@PathVariable Long id, @Valid @RequestBody LoanRequest request) throws Exception {
         responseData = loanService.updateStatus(id, request);
         return ResponseEntity.status(responseData.getCode()).body(responseData);
