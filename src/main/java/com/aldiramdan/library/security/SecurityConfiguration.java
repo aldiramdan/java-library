@@ -8,13 +8,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static com.aldiramdan.library.model.entity.Role.ADMIN;
+import static com.aldiramdan.library.model.entity.Role.USER;
 import static org.springframework.http.HttpMethod.*;
 
 @Configuration
@@ -26,26 +27,63 @@ public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    public static final String[] whiteListedRoutes = new String[] {
+    public static final String[] whiteListedRoutes = new String[]{
             "/auth/**",
-            "/error",
-            "/authors",
-            "/categories",
-            "/genres",
-            "/publisher"
     };
 
-    public static final String [] getAdminListedRoutes = new String[] {
+    public static final String[] getAuthListedRoutes = new String[]{
+            "/users/me",
+    };
+
+    public static final String[] getWhiteListedRoutes = new String[]{
+            "/authors",
+            "/authors/**",
+            "/categories",
+            "/categories/**",
+            "/genres",
+            "/genres/**",
+            "/publishers",
+            "/publishers/**",
+            "/books",
+            "/books/**",
+    };
+
+    public static final String[] getAdminListedRoutes = new String[]{
             "/users",
-            "/users/**"
+            "/users/**",
+            "/loans",
+            "/loans/**",
     };
 
-    public static final String[] adminListedRoutes = new String[] {
-            "/managements/**",
+    public static final String[] postAdminListedRoutes = new String[]{
             "/authors",
             "/categories",
             "/genres",
-            "/publisher"
+            "/publishers",
+            "/books",
+            "/loans",
+    };
+
+    public static final String[] putAdminListedRoutes = new String[]{
+            "/authors/**",
+            "/categories/**",
+            "/genres/**",
+            "/publishers/**",
+            "/books/**",
+            "/loans/**",
+    };
+
+    public static final String[] patchAdminListedRoutes = new String[]{
+            "/loan/**",
+    };
+
+    public static final String[] deleteAdminListedRoutes = new String[]{
+            "/authors/**",
+            "/categories/**",
+            "/genres/**",
+            "/publisher/**",
+            "/books/**",
+            "/loan/**",
     };
 
     @Bean
@@ -53,23 +91,16 @@ public class SecurityConfiguration {
         return http
                 .csrf(csrf -> csrf
                         .disable())
-                .cors(cors -> cors
-                        .disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(whiteListedRoutes)
-                        .permitAll()
-                        .requestMatchers(GET, whiteListedRoutes)
-                        .permitAll()
-                        .requestMatchers(GET, getAdminListedRoutes)
-                        .hasAnyAuthority(ADMIN.name())
-                        .requestMatchers(POST, adminListedRoutes)
-                        .hasAnyAuthority(ADMIN.name())
-                        .requestMatchers(PUT, adminListedRoutes)
-                        .hasAnyAuthority(ADMIN.name())
-                        .requestMatchers(DELETE, adminListedRoutes)
-                        .hasAnyAuthority(ADMIN.name())
-                        .anyRequest()
-                        .authenticated())
+                        .requestMatchers(whiteListedRoutes).permitAll()
+                        .requestMatchers(GET, getWhiteListedRoutes).permitAll()
+                        .requestMatchers(GET, getAuthListedRoutes).hasAnyAuthority(USER.name(), ADMIN.name())
+                        .requestMatchers(GET, getAdminListedRoutes).hasAnyAuthority(ADMIN.name())
+                        .requestMatchers(POST, postAdminListedRoutes).hasAnyAuthority(ADMIN.name())
+                        .requestMatchers(PUT, putAdminListedRoutes).hasAnyAuthority(ADMIN.name())
+                        .requestMatchers(PATCH, patchAdminListedRoutes).hasAnyAuthority(ADMIN.name())
+                        .requestMatchers(DELETE, deleteAdminListedRoutes).hasAnyAuthority(ADMIN.name())
+                        .anyRequest().authenticated())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
