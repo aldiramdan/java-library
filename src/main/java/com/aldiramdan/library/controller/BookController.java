@@ -29,7 +29,7 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<ResponseData> getByTitle(@RequestParam(defaultValue = "") String title) {
+    public ResponseEntity<ResponseData> getByTitle(@RequestParam String title) {
         responseData = bookService.getByTitle(title);
         return ResponseEntity.status(responseData.getCode()).body(responseData);
     }

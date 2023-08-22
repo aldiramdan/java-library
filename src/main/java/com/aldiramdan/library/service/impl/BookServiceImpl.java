@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -75,7 +76,13 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public ResponseData getByTitle(String title) {
-        List<Book> listBook = bookRepository.findByTitleContainingIgnoreCase(title);
+        List<Book> listBook = new ArrayList<>();
+        if (title.isEmpty()) {
+            responseData = new ResponseData(200, "Success", listBook);
+            return responseData;
+        }
+
+        listBook = bookRepository.findByTitleContaining(title);
 
         responseData = new ResponseData(200, "Success", listBook);
         return responseData;

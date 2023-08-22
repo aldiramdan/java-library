@@ -10,5 +10,5 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findByIsBorrowed(Boolean isBorrowed);
 
-    List<Book> findByTitleContainingIgnoreCase(String title);
+    List<Book> findByTitleContaining(String title);
 }
