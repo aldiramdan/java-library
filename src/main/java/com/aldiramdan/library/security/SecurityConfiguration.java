@@ -28,6 +28,7 @@ public class SecurityConfiguration {
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     public static final String[] whiteListedRoutes = new String[]{
+            "/home",
             "/auth/**",
     };
 
