@@ -7,6 +7,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -19,24 +20,28 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @ControllerAdvice
 public class CustomExceptionHandler {
     private ResponseError responseError;
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ResponseError> handleException(Exception e) {
+        log.warn(e.getMessage());
         responseError = new ResponseError(500, LocalDateTime.now(), e.getMessage(), null);
         return ResponseEntity.internalServerError().body(responseError);
     }
 
     @ExceptionHandler(value = FoundException.class)
     public ResponseEntity<ResponseError> handleFound(FoundException e) {
+        log.warn(e.getMessage());
         responseError = new ResponseError(302, LocalDateTime.now(), e.getMessage(), null);
         return ResponseEntity.status(responseError.getCode()).body(responseError);
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity<ResponseError> handleValidation(MethodArgumentNotValidException e) {
+        log.warn(e.getMessage());
         Map<String, Object> mapError = new HashMap<>();
         e.getFieldErrors().forEach(error -> mapError.put(error.getField(), error.getDefaultMessage()));
         responseError = new ResponseError(400, LocalDateTime.now(), "Error validation", mapError);
@@ -45,24 +50,28 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler(value = BadRequestException.class)
     public ResponseEntity<ResponseError> handleBadRequestException(BadRequestException e) {
+        log.warn(e.getMessage());
         responseError = new ResponseError(400, LocalDateTime.now(), e.getMessage(), null);
         return ResponseEntity.status(responseError.getCode()).body(responseError);
     }
 
     @ExceptionHandler(value = UnauthorizedException.class)
     public ResponseEntity<ResponseError> handleUnauthorized(UnauthorizedException e) {
+        log.warn(e.getMessage());
         responseError = new ResponseError(401, LocalDateTime.now(), e.getMessage(), null);
         return ResponseEntity.status(responseError.getCode()).body(responseError);
     }
 
     @ExceptionHandler(value = NotFoundException.class)
     public ResponseEntity<ResponseError> handleNotFound(NotFoundException e) {
+        log.warn(e.getMessage());
         responseError = new ResponseError(404, LocalDateTime.now(), e.getMessage(), null);
         return ResponseEntity.status(responseError.getCode()).body(responseError);
     }
 
     @ExceptionHandler(value = NotProcessException.class)
     public ResponseEntity<ResponseError> handleNotProcess(NotProcessException e) {
+        log.warn(e.getMessage());
         responseError = new ResponseError(422, LocalDateTime.now(), e.getMessage(), null);
         return ResponseEntity.status(responseError.getCode()).body(responseError);
     }

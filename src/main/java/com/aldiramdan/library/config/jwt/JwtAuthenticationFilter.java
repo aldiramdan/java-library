@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.lang.NonNull;
@@ -33,6 +34,7 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -82,6 +84,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
 
+            log.warn(e.getMessage());
             ResponseError responseError = new ResponseError(HttpStatus.UNAUTHORIZED.value(), LocalDateTime.now(), e.getMessage(), null);
 
             final ObjectMapper mapper = new ObjectMapper();
