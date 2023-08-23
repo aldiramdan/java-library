@@ -2,9 +2,7 @@ package com.aldiramdan.library.service.impl;
 
 import com.aldiramdan.library.model.dto.response.ResponseData;
 import com.aldiramdan.library.model.dto.response.ResponseLoan;
-import com.aldiramdan.library.model.dto.response.ResponseUser;
 import com.aldiramdan.library.model.entity.Loan;
-import com.aldiramdan.library.model.entity.User;
 import com.aldiramdan.library.repository.LoanRepository;
 import com.aldiramdan.library.service.HistoryService;
 import com.aldiramdan.library.validator.LoanValidator;

@@ -3,7 +3,6 @@ package com.aldiramdan.library.service.impl;
 import com.aldiramdan.library.model.dto.request.BookRequest;
 import com.aldiramdan.library.model.dto.response.ResponseBook;
 import com.aldiramdan.library.model.dto.response.ResponseData;
-import com.aldiramdan.library.model.dto.response.ResponseUser;
 import com.aldiramdan.library.model.entity.*;
 import com.aldiramdan.library.repository.*;
 import com.aldiramdan.library.service.BookService;
