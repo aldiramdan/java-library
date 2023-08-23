@@ -28,8 +28,7 @@ public class PublisherServiceImpl implements PublisherService {
     public ResponseData getAll() {
         List<Publisher> listPublisher = publisherRepository.findAll();
 
-        responseData = new ResponseData(200, "Success", listPublisher);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", listPublisher);
     }
 
     @Override
@@ -37,8 +36,7 @@ public class PublisherServiceImpl implements PublisherService {
         Optional<Publisher> findPublisher = publisherRepository.findById(id);
         publisherValidator.validatePublisherNotFound(findPublisher);
 
-        responseData = new ResponseData(200, "Success", findPublisher);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", findPublisher);
     }
 
     @Override
@@ -51,8 +49,7 @@ public class PublisherServiceImpl implements PublisherService {
 
         publisherRepository.save(publisher);
 
-        responseData = new ResponseData(201, "Success", publisher);
-        return responseData;
+        return responseData = new ResponseData(201, "Success", publisher);
     }
 
     @Override
@@ -72,8 +69,7 @@ public class PublisherServiceImpl implements PublisherService {
 
         publisherRepository.save(publisher);
 
-        responseData = new ResponseData(200, "Success", publisher);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", publisher);
     }
 
     @Override
@@ -88,8 +84,7 @@ public class PublisherServiceImpl implements PublisherService {
 
         publisherRepository.save(publisher);
 
-        responseData = new ResponseData(200, "Success", null);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", null);
     }
 
     @Override
@@ -104,7 +99,6 @@ public class PublisherServiceImpl implements PublisherService {
 
         publisherRepository.save(publisher);
 
-        responseData = new ResponseData(200, "Successfully recovery publisher", null);
-        return responseData;
+        return responseData = new ResponseData(200, "Successfully recovery publisher", null);
     }
 }

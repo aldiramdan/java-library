@@ -35,8 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
         Optional<Category> findCategory = categoryRepository.findById(id);
         categoryValidator.validateCategoryNotFound(findCategory);
 
-        responseData = new ResponseData(200, "Success", findCategory);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", findCategory);
     }
 
     @Override
@@ -49,8 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         categoryRepository.save(category);
 
-        responseData = new ResponseData(201, "Success", category);
-        return responseData;
+        return responseData = new ResponseData(201, "Success", category);
     }
 
     @Override
@@ -69,8 +67,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         categoryRepository.save(category);
 
-        responseData = new ResponseData(200, "Success", category);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", category);
     }
 
     @Override
@@ -85,8 +82,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         categoryRepository.save(category);
 
-        responseData = new ResponseData(200, "Success", null);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", null);
     }
 
     @Override
@@ -101,7 +97,6 @@ public class CategoryServiceImpl implements CategoryService {
 
         categoryRepository.save(category);
 
-        responseData = new ResponseData(200, "Successfully recovery category", null);
-        return responseData;
+        return responseData = new ResponseData(200, "Successfully recovery category", null);
     }
 }

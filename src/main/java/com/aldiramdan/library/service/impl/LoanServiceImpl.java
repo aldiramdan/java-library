@@ -46,8 +46,7 @@ public class LoanServiceImpl implements LoanService {
     public ResponseData getAll() {
         List<Loan> loanList = loanRepository.findAll();
 
-        responseData = new ResponseData(200, "Success", loanList);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", loanList);
     }
 
     @Override
@@ -55,8 +54,7 @@ public class LoanServiceImpl implements LoanService {
         Optional<Loan> findLoan = loanRepository.findById(id);
         loanValidator.validateLoanNotFound(findLoan);
 
-        responseData = new ResponseData(200, "Success", findLoan);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", findLoan);
     }
 
     @Override
@@ -80,8 +78,7 @@ public class LoanServiceImpl implements LoanService {
 
         findBook.get().setIsBorrowed(true);
 
-        responseData = new ResponseData(201, "Success", loan);
-        return responseData;
+        return  responseData = new ResponseData(201, "Success", loan);
     }
 
     @Override

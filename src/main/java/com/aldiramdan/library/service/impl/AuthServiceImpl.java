@@ -76,8 +76,7 @@ public class AuthServiceImpl implements AuthService {
                 refreshToken
         );
 
-        responseData = new ResponseData(200, "Success", responseToken);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", responseToken);
     }
 
     @Override
@@ -97,8 +96,7 @@ public class AuthServiceImpl implements AuthService {
 
         userRepository.save(user);
 
-        responseData = new ResponseData(201, "Success", user);
-        return responseData;
+        return responseData = new ResponseData(201, "Success", user);
     }
 
     public ResponseData refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {

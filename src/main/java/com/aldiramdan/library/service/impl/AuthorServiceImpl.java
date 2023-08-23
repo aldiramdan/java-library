@@ -28,8 +28,7 @@ public class AuthorServiceImpl implements AuthorService {
     public ResponseData getAll() {
         List<Author> listAuthor = authorRepository.findAll();
 
-        responseData = new ResponseData(200, "Success", listAuthor);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", listAuthor);
     }
 
     @Override
@@ -37,8 +36,7 @@ public class AuthorServiceImpl implements AuthorService {
         Optional<Author> findAuthor = authorRepository.findById(id);
         authorValidator.validateAuthorNotFound(findAuthor);
 
-        responseData = new ResponseData(200, "Success", findAuthor);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", findAuthor);
     }
 
     @Override
@@ -51,8 +49,7 @@ public class AuthorServiceImpl implements AuthorService {
 
         authorRepository.save(author);
 
-        responseData = new ResponseData(201, "Success", author);
-        return responseData;
+        return responseData = new ResponseData(201, "Success", author);
     }
 
     @Override
@@ -71,8 +68,7 @@ public class AuthorServiceImpl implements AuthorService {
 
         authorRepository.save(author);
 
-        responseData = new ResponseData(200, "Success", author);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", author);
     }
 
     @Override
@@ -87,8 +83,7 @@ public class AuthorServiceImpl implements AuthorService {
 
         authorRepository.save(author);
 
-        responseData = new ResponseData(200, "Successfully deleted author", null);
-        return responseData;
+        return responseData = new ResponseData(200, "Successfully deleted author", null);
     }
 
     @Override
@@ -103,7 +98,6 @@ public class AuthorServiceImpl implements AuthorService {
 
         authorRepository.save(author);
 
-        responseData = new ResponseData(200, "Successfully recovery author", null);
-        return responseData;
+        return responseData = new ResponseData(200, "Successfully recovery author", null);
     }
 }

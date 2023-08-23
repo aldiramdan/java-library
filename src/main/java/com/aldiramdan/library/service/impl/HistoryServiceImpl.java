@@ -24,7 +24,6 @@ public class HistoryServiceImpl implements HistoryService {
     public ResponseData getByUsername(String username) {
         List<Loan> loanList = loanRepository.findUserByUsername(username);
 
-        responseData = new ResponseData(200, "Success", loanList);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", loanList);
     }
 }

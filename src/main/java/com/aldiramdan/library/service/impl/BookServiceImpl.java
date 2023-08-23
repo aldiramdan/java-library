@@ -56,8 +56,7 @@ public class BookServiceImpl implements BookService {
             listBook = bookRepository.findByIsBorrowed(isBorrowed);
         }
 
-        responseData = new ResponseData(200, "Success", listBook);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", listBook);
     }
 
     @Override
@@ -67,16 +66,14 @@ public class BookServiceImpl implements BookService {
 
         Book book = findBook.get();
 
-        responseData = new ResponseData(200, "Success", book);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", book);
     }
 
     @Override
     public ResponseData searchByName(String column, String name) {
         List<Book> listBook = new ArrayList<>();
         if (name.isEmpty()) {
-            responseData = new ResponseData(200, "Success", listBook);
-            return responseData;
+            return responseData = new ResponseData(200, "Success", listBook);
         }
 
         switch (column) {
@@ -99,8 +96,7 @@ public class BookServiceImpl implements BookService {
                 listBook = Collections.emptyList();
         }
 
-        responseData = new ResponseData(200, "Success", listBook);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", listBook);
     }
 
     @Override
@@ -131,8 +127,7 @@ public class BookServiceImpl implements BookService {
 
         bookRepository.save(book);
 
-        responseData = new ResponseData(201, "Success", book);
-        return responseData;
+        return responseData = new ResponseData(201, "Success", book);
     }
 
     @Override
@@ -164,8 +159,7 @@ public class BookServiceImpl implements BookService {
 
         bookRepository.save(book);
 
-        responseData = new ResponseData(200, "Success", book);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", book);
     }
 
     @Override
@@ -180,8 +174,7 @@ public class BookServiceImpl implements BookService {
 
         bookRepository.save(book);
 
-        responseData = new ResponseData(200, "Successfully deleted book", null);
-        return responseData;
+        return responseData = new ResponseData(200, "Successfully deleted book", null);
     }
 
     @Override
@@ -195,7 +188,6 @@ public class BookServiceImpl implements BookService {
 
         bookRepository.save(book);
 
-        responseData = new ResponseData(200, "Successfully recovery book", null);
-        return responseData;
+        return responseData = new ResponseData(200, "Successfully recovery book", null);
     }
 }

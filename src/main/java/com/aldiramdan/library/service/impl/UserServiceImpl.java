@@ -3,6 +3,7 @@ package com.aldiramdan.library.service.impl;
 import com.aldiramdan.library.model.dto.request.ChangePasswordRequest;
 import com.aldiramdan.library.model.dto.request.UserRequest;
 import com.aldiramdan.library.model.dto.response.ResponseData;
+import com.aldiramdan.library.model.dto.response.ResponseUser;
 import com.aldiramdan.library.model.entity.User;
 import com.aldiramdan.library.repository.UserRepository;
 import com.aldiramdan.library.service.UserService;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,8 +34,7 @@ public class UserServiceImpl implements UserService {
     public ResponseData getAll() {
         List<User> listUser = userRepository.findAll();
 
-        responseData = new ResponseData(200, "Success", listUser);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", listUser);
     }
 
     @Override
@@ -41,8 +42,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> findUser = userRepository.findById(id);
         userValidator.validateUserNotFound(findUser);
 
-        responseData = new ResponseData(200, "Success", findUser);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", findUser);
     }
 
     @Override
@@ -50,8 +50,9 @@ public class UserServiceImpl implements UserService {
         Optional<User> findUser = userRepository.findByUsername(username);
         userValidator.validateUserNotFound(findUser);
 
-        responseData = new ResponseData(200, "Success", findUser);
-        return responseData;
+        ResponseUser responseUser = new ResponseUser(findUser.get());
+
+        return responseData = new ResponseData(200, "Success", responseUser);
     }
 
     @Override
@@ -83,8 +84,7 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
 
-        responseData = new ResponseData(200, "Success", user);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", user);
     }
 
     @Override
@@ -101,8 +101,7 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
 
-        responseData = new ResponseData(200, "Success", null);
-        return responseData;
+        return responseData = new ResponseData(200, "Success updated password", null);
     }
 
     @Override
@@ -117,7 +116,6 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
 
-        responseData = new ResponseData(200, "Successfully recovery user", null);
-        return responseData;
+        return responseData = new ResponseData(200, "Successfully deleted user", null);
     }
 }

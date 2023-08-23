@@ -26,8 +26,7 @@ public class GenreServiceImpl implements GenreService {
     public ResponseData getAll() {
         List<Genre> listGenre = genreRepository.findAll();
 
-        responseData = new ResponseData(200, "Success", listGenre);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", listGenre);
     }
 
     @Override
@@ -35,8 +34,7 @@ public class GenreServiceImpl implements GenreService {
         Optional<Genre> findGenre = genreRepository.findById(id);
         genreValidator.validateGenreNotFound(findGenre);
 
-        responseData = new ResponseData(200, "Success", findGenre);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", findGenre);
     }
 
     @Override
@@ -49,8 +47,7 @@ public class GenreServiceImpl implements GenreService {
 
         genreRepository.save(genre);
 
-        responseData = new ResponseData(201, "Success", genre);
-        return responseData;
+        return responseData = new ResponseData(201, "Success", genre);
     }
 
     @Override
@@ -69,8 +66,7 @@ public class GenreServiceImpl implements GenreService {
 
         genreRepository.save(genre);
 
-        responseData = new ResponseData(200, "Success", genre);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", genre);
     }
 
     @Override
@@ -85,8 +81,7 @@ public class GenreServiceImpl implements GenreService {
 
         genreRepository.save(genre);
 
-        responseData = new ResponseData(200, "Success", null);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", null);
     }
 
     @Override
@@ -101,7 +96,6 @@ public class GenreServiceImpl implements GenreService {
 
         genreRepository.save(genre);
 
-        responseData = new ResponseData(200, "Successfully recovery genre", null);
-        return responseData;
+        return responseData = new ResponseData(200, "Successfully recovery genre", null);
     }
 }
