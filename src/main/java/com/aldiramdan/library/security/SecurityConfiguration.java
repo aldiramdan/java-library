@@ -32,10 +32,6 @@ public class SecurityConfiguration {
             "/auth/**",
     };
 
-    public static final String[] getAuthListedRoutes = new String[]{
-            "/users/me",
-    };
-
     public static final String[] getWhiteListedRoutes = new String[]{
             "/authors",
             "/authors/**",
@@ -47,6 +43,10 @@ public class SecurityConfiguration {
             "/publishers/**",
             "/books",
             "/books/**",
+    };
+
+    public static final String[] getAuthListedRoutes = new String[]{
+            "/users/me",
     };
 
     public static final String[] getAdminListedRoutes = new String[]{
@@ -62,7 +62,6 @@ public class SecurityConfiguration {
             "/genres",
             "/publishers",
             "/books",
-            "/loans",
     };
 
     public static final String[] putAdminListedRoutes = new String[]{
@@ -71,7 +70,6 @@ public class SecurityConfiguration {
             "/genres/**",
             "/publishers/**",
             "/books/**",
-            "/loans/**",
     };
 
     public static final String[] patchAdminListedRoutes = new String[]{
