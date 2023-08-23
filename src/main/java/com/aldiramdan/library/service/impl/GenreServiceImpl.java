@@ -101,7 +101,7 @@ public class GenreServiceImpl implements GenreService {
 
         genreRepository.save(genre);
 
-        responseData = new ResponseData(200, "Success", null);
+        responseData = new ResponseData(200, "Successfully recovery genre", null);
         return responseData;
     }
 }

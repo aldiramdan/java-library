@@ -87,7 +87,7 @@ public class AuthorServiceImpl implements AuthorService {
 
         authorRepository.save(author);
 
-        responseData = new ResponseData(200, "Success", null);
+        responseData = new ResponseData(200, "Successfully deleted author", null);
         return responseData;
     }
 
@@ -103,7 +103,7 @@ public class AuthorServiceImpl implements AuthorService {
 
         authorRepository.save(author);
 
-        responseData = new ResponseData(200, "Success", null);
+        responseData = new ResponseData(200, "Successfully recovery author", null);
         return responseData;
     }
 }

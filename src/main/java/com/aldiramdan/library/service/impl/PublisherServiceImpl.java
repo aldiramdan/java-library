@@ -104,7 +104,7 @@ public class PublisherServiceImpl implements PublisherService {
 
         publisherRepository.save(publisher);
 
-        responseData = new ResponseData(200, "Success", null);
+        responseData = new ResponseData(200, "Successfully recovery publisher", null);
         return responseData;
     }
 }

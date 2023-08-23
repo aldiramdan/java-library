@@ -180,7 +180,7 @@ public class BookServiceImpl implements BookService {
 
         bookRepository.save(book);
 
-        responseData = new ResponseData(200, "Success", null);
+        responseData = new ResponseData(200, "Successfully deleted book", null);
         return responseData;
     }
 
@@ -195,7 +195,7 @@ public class BookServiceImpl implements BookService {
 
         bookRepository.save(book);
 
-        responseData = new ResponseData(200, "Success", null);
+        responseData = new ResponseData(200, "Successfully recovery book", null);
         return responseData;
     }
 }

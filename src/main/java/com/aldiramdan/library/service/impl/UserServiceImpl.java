@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
 
-        responseData = new ResponseData(200, "Success", null);
+        responseData = new ResponseData(200, "Successfully recovery user", null);
         return responseData;
     }
 }

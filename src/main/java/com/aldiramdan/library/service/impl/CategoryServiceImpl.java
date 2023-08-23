@@ -101,7 +101,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         categoryRepository.save(category);
 
-        responseData = new ResponseData(200, "Success", null);
+        responseData = new ResponseData(200, "Successfully recovery category", null);
         return responseData;
     }
 }

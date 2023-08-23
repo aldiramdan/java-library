@@ -12,6 +12,7 @@ import com.aldiramdan.library.model.entity.User;
 import com.aldiramdan.library.repository.TokenRepository;
 import com.aldiramdan.library.repository.UserRepository;
 import com.aldiramdan.library.service.AuthService;
+import com.aldiramdan.library.utils.GenerateRandom;
 import com.aldiramdan.library.validator.UserValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

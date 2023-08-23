@@ -61,7 +61,7 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public ResponseData add(LoanRequest request) throws Exception {
-        Optional<User> findUser = userRepository.findById(request.getUser());
+        Optional<User> findUser = userRepository.findByUsername(request.getUser());
         userValidator.validateUserNotFound(findUser);
         userValidator.validateUserIsAlreadyDeleted(findUser.get());
 
@@ -89,7 +89,7 @@ public class LoanServiceImpl implements LoanService {
         Optional<Loan> findLoan = loanRepository.findById(id);
         loanValidator.validateLoanNotFound(findLoan);
 
-        Optional<User> findUser = userRepository.findById(request.getUser());
+        Optional<User> findUser = userRepository.findByUsername(request.getUser());
         userValidator.validateUserNotFound(findUser);
         userValidator.validateUserIsAlreadyDeleted(findUser.get());
 
@@ -115,7 +115,7 @@ public class LoanServiceImpl implements LoanService {
         Optional<Loan> findLoan = loanRepository.findById(id);
         loanValidator.validateLoanNotFound(findLoan);
 
-        Optional<User> findUser = userRepository.findById(request.getUser());
+        Optional<User> findUser = userRepository.findByUsername(request.getUser());
         userValidator.validateUserNotFound(findUser);
         userValidator.validateUserIsAlreadyDeleted(findUser.get());
 
@@ -167,7 +167,7 @@ public class LoanServiceImpl implements LoanService {
 
         findLoan.get().getBook().setIsBorrowed(false);
 
-        responseData = new ResponseData(200, "Success", null);
+        responseData = new ResponseData(200, "Successfully recovery loan book", null);
         return responseData;
     }
 }
