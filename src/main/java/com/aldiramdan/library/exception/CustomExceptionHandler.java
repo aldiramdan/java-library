@@ -2,20 +2,12 @@ package com.aldiramdan.library.exception;
 
 import com.aldiramdan.library.exception.custom.*;
 import com.aldiramdan.library.model.dto.response.ResponseError;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.security.SignatureException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;

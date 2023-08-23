@@ -1,24 +1,14 @@
 package com.aldiramdan.library.config.jwt;
 
 import com.aldiramdan.library.model.dto.response.ResponseError;
-import com.aldiramdan.library.security.SecurityConfiguration;
 import com.aldiramdan.library.repository.TokenRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.aldiramdan.library.security.SecurityConfiguration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -31,8 +21,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Objects;
 
 @Slf4j
 @Component

@@ -78,7 +78,7 @@ public class LoanServiceImpl implements LoanService {
 
         findBook.get().setIsBorrowed(true);
 
-        return  responseData = new ResponseData(201, "Success", loan);
+        return responseData = new ResponseData(201, "Success", loan);
     }
 
     @Override

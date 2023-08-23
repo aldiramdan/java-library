@@ -2,7 +2,6 @@ package com.aldiramdan.library.controller;
 
 import com.aldiramdan.library.model.dto.response.ResponseData;
 import com.aldiramdan.library.service.HistoryService;
-import com.aldiramdan.library.service.LoanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
