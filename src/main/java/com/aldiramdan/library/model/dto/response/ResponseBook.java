@@ -1,7 +1,13 @@
 package com.aldiramdan.library.model.dto.response;
 
 import com.aldiramdan.library.model.entity.Book;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ResponseBook {
     private Long id;
     private String title;
