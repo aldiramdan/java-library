@@ -26,8 +26,7 @@ public class CategoryServiceImpl implements CategoryService {
     public ResponseData getAll() {
         List<Category> listCategory = categoryRepository.findAll();
 
-        responseData = new ResponseData(200, "Success", listCategory);
-        return responseData;
+        return responseData = new ResponseData(200, "Success", listCategory);
     }
 
     @Override
