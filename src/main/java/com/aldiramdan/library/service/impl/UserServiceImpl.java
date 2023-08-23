@@ -34,7 +34,13 @@ public class UserServiceImpl implements UserService {
     public ResponseData getAll() {
         List<User> listUser = userRepository.findAll();
 
-        return responseData = new ResponseData(200, "Success", listUser);
+        List<ResponseUser> listResult = new ArrayList<>();
+        for (User u : listUser) {
+            ResponseUser temp = new ResponseUser(u);
+            listResult.add(temp);
+        }
+
+        return responseData = new ResponseData(200, "Success", listResult);
     }
 
     @Override
@@ -42,7 +48,8 @@ public class UserServiceImpl implements UserService {
         Optional<User> findUser = userRepository.findById(id);
         userValidator.validateUserNotFound(findUser);
 
-        return responseData = new ResponseData(200, "Success", findUser);
+        ResponseUser result = new ResponseUser(findUser.get());
+        return responseData = new ResponseData(200, "Success", result);
     }
 
     @Override
@@ -50,9 +57,8 @@ public class UserServiceImpl implements UserService {
         Optional<User> findUser = userRepository.findByUsername(username);
         userValidator.validateUserNotFound(findUser);
 
-        ResponseUser responseUser = new ResponseUser(findUser.get());
-
-        return responseData = new ResponseData(200, "Success", responseUser);
+        ResponseUser result = new ResponseUser(findUser.get());
+        return responseData = new ResponseData(200, "Success", result);
     }
 
     @Override
@@ -84,7 +90,8 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
 
-        return responseData = new ResponseData(200, "Success", user);
+        ResponseUser result = new ResponseUser(user);
+        return responseData = new ResponseData(200, "Success", result);
     }
 
     @Override

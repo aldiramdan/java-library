@@ -5,6 +5,7 @@ import com.aldiramdan.library.model.dto.request.LoginRequest;
 import com.aldiramdan.library.model.dto.request.RegisterRequest;
 import com.aldiramdan.library.model.dto.response.ResponseData;
 import com.aldiramdan.library.model.dto.response.ResponseToken;
+import com.aldiramdan.library.model.dto.response.ResponseUser;
 import com.aldiramdan.library.model.entity.Role;
 import com.aldiramdan.library.model.entity.Token;
 import com.aldiramdan.library.model.entity.TokenType;
@@ -96,7 +97,8 @@ public class AuthServiceImpl implements AuthService {
 
         userRepository.save(user);
 
-        return responseData = new ResponseData(201, "Success", user);
+        ResponseUser result = new ResponseUser(user);
+        return responseData = new ResponseData(201, "Success", result);
     }
 
     public ResponseData refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
