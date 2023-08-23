@@ -55,7 +55,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             final String username;
 
             if (Arrays.stream(SecurityConfiguration.whiteListedRoutes)
-                    .anyMatch(route -> antPathMatcher.match(route, request.getServletPath())) ||
+                    .anyMatch(route -> antPathMatcher.match(route, request.getServletPath())) &&
                     Arrays.stream(SecurityConfiguration.getWhiteListedRoutes)
                             .anyMatch(route -> antPathMatcher.match(route, request.getServletPath())) ||
                     Objects.isNull(authHeader) || !authHeader.startsWith("Bearer ")) {
@@ -82,6 +82,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
+            filterChain.doFilter(request, response);
         } catch (RuntimeException e) {
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
@@ -93,6 +94,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             mapper.registerModule(new JavaTimeModule());
             mapper.writeValue(response.getOutputStream(), responseError);
         }
-        filterChain.doFilter(request, response);
     }
 }
