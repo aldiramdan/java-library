@@ -2,6 +2,7 @@ package com.aldiramdan.library.service.impl;
 
 import com.aldiramdan.library.model.dto.request.LoanRequest;
 import com.aldiramdan.library.model.dto.response.ResponseData;
+import com.aldiramdan.library.model.dto.response.ResponseLoan;
 import com.aldiramdan.library.model.entity.Book;
 import com.aldiramdan.library.model.entity.Loan;
 import com.aldiramdan.library.model.entity.User;
@@ -16,6 +17,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +48,13 @@ public class LoanServiceImpl implements LoanService {
     public ResponseData getAll() {
         List<Loan> loanList = loanRepository.findAll();
 
-        return responseData = new ResponseData(200, "Success", loanList);
+        List<ResponseLoan> listResult = new ArrayList<>();
+        for (Loan l : loanList) {
+            ResponseLoan temp = new ResponseLoan(l);
+            listResult.add(temp);
+        }
+
+        return responseData = new ResponseData(200, "Success", listResult);
     }
 
     @Override
@@ -54,7 +62,8 @@ public class LoanServiceImpl implements LoanService {
         Optional<Loan> findLoan = loanRepository.findById(id);
         loanValidator.validateLoanNotFound(findLoan);
 
-        return responseData = new ResponseData(200, "Success", findLoan);
+        ResponseLoan result = new ResponseLoan(findLoan.get());
+        return responseData = new ResponseData(200, "Success", result);
     }
 
     @Override
@@ -78,7 +87,8 @@ public class LoanServiceImpl implements LoanService {
 
         findBook.get().setIsBorrowed(true);
 
-        return responseData = new ResponseData(201, "Success", loan);
+        ResponseLoan result = new ResponseLoan(loan);
+        return responseData = new ResponseData(201, "Success", result);
     }
 
     @Override
@@ -103,8 +113,8 @@ public class LoanServiceImpl implements LoanService {
 
         loanRepository.save(loan);
 
-        responseData = new ResponseData(200, "Success", loan);
-        return responseData;
+        ResponseLoan result = new ResponseLoan(loan);
+        return responseData = new ResponseData(200, "Success", result);
     }
 
     @Override
@@ -129,8 +139,8 @@ public class LoanServiceImpl implements LoanService {
 
         findBook.get().setIsBorrowed(false);
 
-        responseData = new ResponseData(200, "Success", loan);
-        return responseData;
+        ResponseLoan result = new ResponseLoan(findLoan.get());
+        return responseData = new ResponseData(200, "Success", result);
     }
 
     @Override
@@ -147,8 +157,7 @@ public class LoanServiceImpl implements LoanService {
 
         findLoan.get().getBook().setIsBorrowed(false);
 
-        responseData = new ResponseData(200, "Success", null);
-        return responseData;
+        return responseData = new ResponseData(200, "Successfully deleted loan book", null);
     }
 
     @Override
@@ -164,7 +173,6 @@ public class LoanServiceImpl implements LoanService {
 
         findLoan.get().getBook().setIsBorrowed(false);
 
-        responseData = new ResponseData(200, "Successfully recovery loan book", null);
-        return responseData;
+        return responseData = new ResponseData(200, "Successfully recovery loan book", null);
     }
 }
