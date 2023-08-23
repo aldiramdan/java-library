@@ -1,7 +1,9 @@
 package com.aldiramdan.library.service.impl;
 
 import com.aldiramdan.library.model.dto.request.BookRequest;
+import com.aldiramdan.library.model.dto.response.ResponseBook;
 import com.aldiramdan.library.model.dto.response.ResponseData;
+import com.aldiramdan.library.model.dto.response.ResponseUser;
 import com.aldiramdan.library.model.entity.*;
 import com.aldiramdan.library.repository.*;
 import com.aldiramdan.library.service.BookService;
@@ -56,7 +58,13 @@ public class BookServiceImpl implements BookService {
             listBook = bookRepository.findByIsBorrowed(isBorrowed);
         }
 
-        return responseData = new ResponseData(200, "Success", listBook);
+        List<ResponseBook> listResult = new ArrayList<>();
+        for (Book b : listBook) {
+            ResponseBook temp = new ResponseBook(b);
+            listResult.add(temp);
+        }
+
+        return responseData = new ResponseData(200, "Success", listResult);
     }
 
     @Override
@@ -64,9 +72,8 @@ public class BookServiceImpl implements BookService {
         Optional<Book> findBook = bookRepository.findById(id);
         bookValidator.validateBookNotFound(findBook);
 
-        Book book = findBook.get();
-
-        return responseData = new ResponseData(200, "Success", book);
+        ResponseBook result = new ResponseBook(findBook.get());
+        return responseData = new ResponseData(200, "Success", result);
     }
 
     @Override
@@ -96,7 +103,13 @@ public class BookServiceImpl implements BookService {
                 listBook = Collections.emptyList();
         }
 
-        return responseData = new ResponseData(200, "Success", listBook);
+        List<ResponseBook> listResult = new ArrayList<>();
+        for (Book b : listBook) {
+            ResponseBook temp = new ResponseBook(b);
+            listResult.add(temp);
+        }
+
+        return responseData = new ResponseData(200, "Success", listResult);
     }
 
     @Override
@@ -127,7 +140,8 @@ public class BookServiceImpl implements BookService {
 
         bookRepository.save(book);
 
-        return responseData = new ResponseData(201, "Success", book);
+        ResponseBook result = new ResponseBook(book);
+        return responseData = new ResponseData(201, "Success", result);
     }
 
     @Override
@@ -149,7 +163,7 @@ public class BookServiceImpl implements BookService {
         Optional<Publisher> findPublisher = publisherRepository.findById(request.getPublisher());
         publisherValidator.validatePublisherNotFound(findPublisher);
 
-        Book book = new Book();
+        Book book = findBook.get();
         book.setTitle(request.getTitle());
         book.setAuthor(findAuthor.get());
         book.setCategory(findCategory.get());
@@ -159,7 +173,8 @@ public class BookServiceImpl implements BookService {
 
         bookRepository.save(book);
 
-        return responseData = new ResponseData(200, "Success", book);
+        ResponseBook result = new ResponseBook(book);
+        return responseData = new ResponseData(200, "Success", result);
     }
 
     @Override
