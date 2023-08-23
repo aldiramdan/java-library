@@ -10,10 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -75,14 +72,32 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public ResponseData getByTitle(String title) {
+    public ResponseData searchByName(String column, String name) {
         List<Book> listBook = new ArrayList<>();
-        if (title.isEmpty()) {
+        if (name.isEmpty()) {
             responseData = new ResponseData(200, "Success", listBook);
             return responseData;
         }
 
-        listBook = bookRepository.findByTitleContaining(title);
+        switch (column) {
+            case "title":
+                listBook = bookRepository.findByTitleContaining(name);
+                break;
+            case "author":
+                listBook = bookRepository.findByAuthorName(name);
+                break;
+            case "category":
+                listBook = bookRepository.findByCategoryName(name);
+                break;
+            case "genre":
+                listBook = bookRepository.findByGenreName(name);
+                break;
+            case "publisher":
+                listBook = bookRepository.findByPublisherName(name);
+                break;
+            default:
+                listBook = Collections.emptyList();
+        }
 
         responseData = new ResponseData(200, "Success", listBook);
         return responseData;

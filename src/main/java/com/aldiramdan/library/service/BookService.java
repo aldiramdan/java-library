@@ -8,7 +8,7 @@ public interface BookService {
 
     ResponseData getById(Long id) throws Exception;
 
-    ResponseData getByTitle(String title);
+    ResponseData searchByName(String column, String name);
 
     ResponseData add(BookRequest request) throws Exception;
 

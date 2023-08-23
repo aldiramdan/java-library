@@ -28,9 +28,9 @@ public class BookController {
         return ResponseEntity.status(responseData.getCode()).body(responseData);
     }
 
-    @GetMapping("/search")
-    public ResponseEntity<ResponseData> getByTitle(@RequestParam String title) {
-        responseData = bookService.getByTitle(title);
+    @GetMapping("/search/{column}")
+    public ResponseEntity<ResponseData> searchByName(@PathVariable String column, @RequestParam String name) {
+        responseData = bookService.searchByName(column, name);
         return ResponseEntity.status(responseData.getCode()).body(responseData);
     }
 
