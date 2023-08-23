@@ -6,6 +6,8 @@ import com.aldiramdan.library.service.LoanService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,13 +31,15 @@ public class LoanController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseData> create(@Valid @RequestBody LoanRequest request) throws Exception {
+    public ResponseEntity<ResponseData> create(@AuthenticationPrincipal UserDetails userDetails, @Valid @RequestBody LoanRequest request) throws Exception {
+        request.setUser(userDetails.getUsername());
         responseData = loanService.add(request);
         return ResponseEntity.status(responseData.getCode()).body(responseData);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseData> update(@PathVariable Long id, @Valid @RequestBody LoanRequest request) throws Exception {
+    public ResponseEntity<ResponseData> update(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails, @Valid @RequestBody LoanRequest request) throws Exception {
+        request.setUser(userDetails.getUsername());
         responseData = loanService.update(id, request);
         return ResponseEntity.status(responseData.getCode()).body(responseData);
     }

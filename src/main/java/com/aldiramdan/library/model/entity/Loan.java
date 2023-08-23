@@ -25,19 +25,14 @@ public class Loan {
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
-    @Column
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date borrowDate;
 
-    @Column
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date dueDate;
 
-    @Column
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date returnDate;
-
-    @Column
     private Boolean status = false;
 
     @JsonIgnore
