@@ -84,16 +84,16 @@ public class BookServiceImpl implements BookService {
                 listBook = bookRepository.findByTitleContaining(name);
                 break;
             case "author":
-                listBook = bookRepository.findByAuthorName(name);
+                listBook = bookRepository.findAuthorByName(name);
                 break;
             case "category":
-                listBook = bookRepository.findByCategoryName(name);
+                listBook = bookRepository.findCategoryByName(name);
                 break;
             case "genre":
-                listBook = bookRepository.findByGenreName(name);
+                listBook = bookRepository.findGenreByName(name);
                 break;
             case "publisher":
-                listBook = bookRepository.findByPublisherName(name);
+                listBook = bookRepository.findPublisherByName(name);
                 break;
             default:
                 listBook = Collections.emptyList();

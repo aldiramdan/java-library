@@ -18,26 +18,26 @@ public interface BookRepository extends JpaRepository<Book, Long> {
             on b.author.id = a.id\s
             where a.name like %:name%\s
             """)
-    List<Book> findByAuthorName(String name);
+    List<Book> findAuthorByName(String name);
 
     @Query("""
             select b from Book b inner join Genre g\s
             on b.genre.id = g.id\s
             where g.name like %:name%\s
             """)
-    List<Book> findByGenreName(String name);
+    List<Book> findGenreByName(String name);
 
     @Query("""
             select b from Book b inner join Category c\s
             on b.category.id = c.id\s
             where c.name like %:name%\s
             """)
-    List<Book> findByCategoryName(String name);
+    List<Book> findCategoryByName(String name);
 
     @Query("""
             select b from Book b inner join Publisher p\s
             on b.publisher.id = p.id\s
             where p.name like %:name%\s
             """)
-    List<Book> findByPublisherName(String name);
+    List<Book> findPublisherByName(String name);
 }
