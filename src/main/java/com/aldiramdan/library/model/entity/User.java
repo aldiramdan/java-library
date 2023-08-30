@@ -37,6 +37,9 @@ public class User implements UserDetails {
     private Role role;
 
     @JsonIgnore
+    private Boolean isActives = false;
+
+    @JsonIgnore
     private Boolean isDeleted = false;
 
     @JsonIgnore
