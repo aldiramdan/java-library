@@ -2,11 +2,14 @@ package com.aldiramdan.library.exception;
 
 import com.aldiramdan.library.exception.custom.*;
 import com.aldiramdan.library.model.dto.response.ResponseError;
+import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.thymeleaf.exceptions.TemplateInputException;
+import org.thymeleaf.exceptions.TemplateProcessingException;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -65,6 +68,27 @@ public class CustomExceptionHandler {
     public ResponseEntity<ResponseError> handleNotProcess(NotProcessException e) {
         log.warn(e.getMessage());
         responseError = new ResponseError(422, LocalDateTime.now(), e.getMessage(), null);
+        return ResponseEntity.status(responseError.getCode()).body(responseError);
+    }
+
+    @ExceptionHandler(value = IllegalStateException.class)
+    public ResponseEntity<ResponseError> handleIllegalStateException(IllegalStateException e) {
+        log.warn(e.getMessage());
+        responseError = new ResponseError(500, LocalDateTime.now(), e.getMessage(), null);
+        return ResponseEntity.status(responseError.getCode()).body(responseError);
+    }
+
+    @ExceptionHandler(value = MessagingException.class)
+    public ResponseEntity<ResponseError> handleMessagingException(MessagingException e) {
+        log.warn(e.getMessage());
+        responseError = new ResponseError(500, LocalDateTime.now(), e.getMessage(), null);
+        return ResponseEntity.status(responseError.getCode()).body(responseError);
+    }
+
+    @ExceptionHandler(value = TemplateInputException.class)
+    public ResponseEntity<ResponseError> handleTemplateInputException(TemplateInputException e) {
+        log.warn(e.getMessage());
+        responseError = new ResponseError(500, LocalDateTime.now(), e.getMessage(), null);
         return ResponseEntity.status(responseError.getCode()).body(responseError);
     }
 }
