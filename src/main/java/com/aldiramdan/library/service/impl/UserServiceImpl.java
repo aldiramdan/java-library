@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
         User user = findUser.get();
         userValidator.validateInvalidOldPassword(request.getOldPassword(), user.getPassword());
 
-        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        user.setPassword(passwordEncoder.encode(request.getConfirmPassword()));
 
         userRepository.save(user);
 

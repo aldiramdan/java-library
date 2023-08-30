@@ -234,7 +234,7 @@ public class AuthServiceImpl implements AuthService {
         authValidator.validateInvalidCookiesCode(code, findCode.get().getCode());
 
         User user = findCode.get().getUser();
-        user.setPassword(request.getConfirmPassword());
+        user.setPassword(passwordEncoder.encode(request.getConfirmPassword()));
         userRepository.save(user);
 
         return responseData = new ResponseData(200, "Successfully reset password", null);
