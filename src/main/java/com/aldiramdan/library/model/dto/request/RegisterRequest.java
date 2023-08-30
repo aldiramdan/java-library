@@ -23,7 +23,7 @@ public class RegisterRequest {
     @NotBlank(message = "email is required")
     private String email;
 
-    @Size(min = 8, message = "password must be minimun 8 characters")
+    @Size(min = 8, message = "password must be minimum 8 characters")
     @NotBlank(message = "password is required")
     private String password;
 

@@ -45,7 +45,7 @@ public class UserController {
         return ResponseEntity.status(responseData.getCode()).body(responseData);
     }
 
-    @PutMapping("/change-password")
+    @PatchMapping("/change-password")
     public ResponseEntity<ResponseData> changePassword(@AuthenticationPrincipal UserDetails userDetails, @Valid @RequestBody ChangePasswordRequest request) throws Exception {
         String username = userDetails.getUsername();
         responseData = userService.changePassword(username, request);

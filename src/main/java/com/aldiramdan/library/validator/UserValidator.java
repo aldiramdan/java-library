@@ -1,9 +1,6 @@
 package com.aldiramdan.library.validator;
 
-import com.aldiramdan.library.exception.custom.BadRequestException;
-import com.aldiramdan.library.exception.custom.FoundException;
-import com.aldiramdan.library.exception.custom.NotFoundException;
-import com.aldiramdan.library.exception.custom.NotProcessException;
+import com.aldiramdan.library.exception.custom.*;
 import com.aldiramdan.library.model.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,6 +32,12 @@ public class UserValidator {
         }
     }
 
+    public void validateUserNotIsActives(Optional<User> findUser) throws Exception {
+        if (!findUser.get().getIsActives()) {
+            throw new IllegalAccessException("User not verification account!, please confirm account!");
+        }
+    }
+
     public void validateUserIsAlreadyDeleted(User user) throws Exception {
         if (Objects.nonNull(user.getIsDeleted()) && user.getIsDeleted()) {
             throw new NotProcessException("User is already deleted!");
@@ -50,6 +53,12 @@ public class UserValidator {
     public void validateInvalidNewPassword(String newPassword, String confirmPassword) throws Exception {
         if (!newPassword.equals(confirmPassword)) {
             throw new BadRequestException("New password and Confirm password do not match!");
+        }
+    }
+
+    public void validateInvalidCookiesEmail(String reqEmail, String dbEmail) throws Exception {
+        if (!reqEmail.equals(dbEmail)) {
+            throw new NotProcessException("Invalid cookies detected!");
         }
     }
 }
