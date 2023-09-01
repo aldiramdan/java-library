@@ -49,7 +49,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             final String username;
 
             if (Arrays.stream(SecurityConfiguration.whiteListedRoutes)
-                    .anyMatch(route -> antPathMatcher.match(route, request.getServletPath())) &&
+                        .anyMatch(route -> antPathMatcher.match(route, request.getServletPath())) ||
+                    Arrays.stream(SecurityConfiguration.whiteListedRoutes)
+                        .anyMatch(route -> antPathMatcher.match(route, request.getServletPath())) &&
                     Arrays.stream(SecurityConfiguration.getWhiteListedRoutes)
                             .anyMatch(route -> antPathMatcher.match(route, request.getServletPath())) ||
                     Objects.isNull(authHeader) || !authHeader.startsWith("Bearer ")) {
