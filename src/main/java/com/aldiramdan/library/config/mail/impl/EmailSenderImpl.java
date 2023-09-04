@@ -37,7 +37,7 @@ public class EmailSenderImpl implements EmailSender {
         } else if (subject.contains("Forgot")) {
             templateMail = "auth/forgot-password-email.html";
         } else {
-            templateMail= null;
+            templateMail = null;
         }
 
         Context context = new Context();
