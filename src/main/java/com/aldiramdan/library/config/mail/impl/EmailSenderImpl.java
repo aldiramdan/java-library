@@ -2,10 +2,9 @@ package com.aldiramdan.library.config.mail.impl;
 
 import com.aldiramdan.library.config.mail.EmailSender;
 import com.aldiramdan.library.model.entity.User;
-import io.jsonwebtoken.lang.Strings;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -15,18 +14,16 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 @Service
+@RequiredArgsConstructor
 public class EmailSenderImpl implements EmailSender {
-    @Autowired
-    private JavaMailSender javaMailSender;
-
-    @Autowired
-    private TemplateEngine templateEngine;
+    private final JavaMailSender javaMailSender;
+    private final TemplateEngine templateEngine;
 
     @Value("${application.frontend.origin-url}")
     private String frontendOriginUrl;
 
-    @Override
     @Async
+    @Override
     public void sendMail(User user, String tokenCode, String path, String subject) throws MessagingException {
         final String buildMail;
         final String templateMail;

@@ -1,6 +1,9 @@
 package com.aldiramdan.library.validator;
 
-import com.aldiramdan.library.exception.custom.*;
+import com.aldiramdan.library.exception.custom.BadRequestException;
+import com.aldiramdan.library.exception.custom.FoundException;
+import com.aldiramdan.library.exception.custom.NotFoundException;
+import com.aldiramdan.library.exception.custom.NotProcessException;
 import com.aldiramdan.library.model.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,7 +36,7 @@ public class UserValidator {
     }
 
     public void validateUserNotIsActives(Optional<User> findUser) throws Exception {
-        if (!findUser.get().getIsActives()) {
+        if (Objects.isNull(findUser.get().getIsActives()) || !findUser.get().getIsActives()) {
             throw new IllegalAccessException("User not verification account!, please confirm account!");
         }
     }

@@ -14,7 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoanRequest {
-    private String user;
+    private Long user;
 
     @NotNull(message = "book is required")
     private Long book;

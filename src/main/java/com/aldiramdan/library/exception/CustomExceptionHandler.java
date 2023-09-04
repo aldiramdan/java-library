@@ -9,7 +9,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.thymeleaf.exceptions.TemplateInputException;
-import org.thymeleaf.exceptions.TemplateProcessingException;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -22,21 +21,21 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ResponseError> handleException(Exception e) {
-        log.warn(e.getMessage());
+        log.warn("Exception: {}", e.getMessage());
         responseError = new ResponseError(500, LocalDateTime.now(), e.getMessage(), null);
         return ResponseEntity.internalServerError().body(responseError);
     }
 
     @ExceptionHandler(value = FoundException.class)
     public ResponseEntity<ResponseError> handleFound(FoundException e) {
-        log.warn(e.getMessage());
+        log.warn("FoundException: {}", e.getMessage());
         responseError = new ResponseError(302, LocalDateTime.now(), e.getMessage(), null);
         return ResponseEntity.status(responseError.getCode()).body(responseError);
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ResponseEntity<ResponseError> handleValidation(MethodArgumentNotValidException e) {
-        log.warn(e.getMessage());
+        log.warn("MethodArgumentNotValidException: {}", e.getMessage());
         Map<String, Object> mapError = new HashMap<>();
         e.getFieldErrors().forEach(error -> mapError.put(error.getField(), error.getDefaultMessage()));
         responseError = new ResponseError(400, LocalDateTime.now(), "Error validation", mapError);
@@ -45,49 +44,49 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler(value = BadRequestException.class)
     public ResponseEntity<ResponseError> handleBadRequestException(BadRequestException e) {
-        log.warn(e.getMessage());
+        log.warn("BadRequestException: {}", e.getMessage());
         responseError = new ResponseError(400, LocalDateTime.now(), e.getMessage(), null);
         return ResponseEntity.status(responseError.getCode()).body(responseError);
     }
 
     @ExceptionHandler(value = UnauthorizedException.class)
     public ResponseEntity<ResponseError> handleUnauthorized(UnauthorizedException e) {
-        log.warn(e.getMessage());
+        log.warn("UnauthorizedException: {}", e.getMessage());
         responseError = new ResponseError(401, LocalDateTime.now(), e.getMessage(), null);
         return ResponseEntity.status(responseError.getCode()).body(responseError);
     }
 
     @ExceptionHandler(value = NotFoundException.class)
     public ResponseEntity<ResponseError> handleNotFound(NotFoundException e) {
-        log.warn(e.getMessage());
+        log.warn("NotFoundException: {}", e.getMessage());
         responseError = new ResponseError(404, LocalDateTime.now(), e.getMessage(), null);
         return ResponseEntity.status(responseError.getCode()).body(responseError);
     }
 
     @ExceptionHandler(value = NotProcessException.class)
     public ResponseEntity<ResponseError> handleNotProcess(NotProcessException e) {
-        log.warn(e.getMessage());
+        log.warn("NotProcessException: {}", e.getMessage());
         responseError = new ResponseError(422, LocalDateTime.now(), e.getMessage(), null);
         return ResponseEntity.status(responseError.getCode()).body(responseError);
     }
 
     @ExceptionHandler(value = IllegalStateException.class)
     public ResponseEntity<ResponseError> handleIllegalStateException(IllegalStateException e) {
-        log.warn(e.getMessage());
+        log.warn("IllegalStateException: {}", e.getMessage());
         responseError = new ResponseError(500, LocalDateTime.now(), e.getMessage(), null);
         return ResponseEntity.status(responseError.getCode()).body(responseError);
     }
 
     @ExceptionHandler(value = MessagingException.class)
     public ResponseEntity<ResponseError> handleMessagingException(MessagingException e) {
-        log.warn(e.getMessage());
+        log.warn("MessagingException: {}", e.getMessage());
         responseError = new ResponseError(500, LocalDateTime.now(), e.getMessage(), null);
         return ResponseEntity.status(responseError.getCode()).body(responseError);
     }
 
     @ExceptionHandler(value = TemplateInputException.class)
     public ResponseEntity<ResponseError> handleTemplateInputException(TemplateInputException e) {
-        log.warn(e.getMessage());
+        log.warn("TemplateInputException: {}", e.getMessage());
         responseError = new ResponseError(500, LocalDateTime.now(), e.getMessage(), null);
         return ResponseEntity.status(responseError.getCode()).body(responseError);
     }

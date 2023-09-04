@@ -9,13 +9,13 @@ public interface UserService {
 
     ResponseData getById(Long id) throws Exception;
 
-    ResponseData getByUsername(String username) throws Exception;
+    ResponseData getByUsername(Long id) throws Exception;
 
-    ResponseData update(String username, UserRequest request) throws Exception;
+    ResponseData update(Long id, UserRequest request) throws Exception;
 
-    ResponseData changePassword(String username, ChangePasswordRequest request) throws Exception;
+    ResponseData changePassword(Long id, ChangePasswordRequest request) throws Exception;
 
-    ResponseData delete(String username) throws Exception;
+    ResponseData delete(Long id) throws Exception;
 
 
 }

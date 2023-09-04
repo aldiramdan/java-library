@@ -2,7 +2,6 @@ package com.aldiramdan.library.utils;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.context.annotation.Bean;
 
 public class Cookies {
     public static void setEmailCookie(HttpServletResponse response, String code) {

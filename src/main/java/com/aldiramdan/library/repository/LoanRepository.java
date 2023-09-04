@@ -12,7 +12,7 @@ public interface LoanRepository extends JpaRepository<Loan, Long> {
     @Query("""
             select l from Loan l inner join User u\s
             on l.user.id = u.id\s
-            where u.username = :username\s
+            where u.id = :id\s
             """)
-    List<Loan> findUserByUsername(String username);
+    List<Loan> findUserById(Long id);
 }
