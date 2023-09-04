@@ -6,19 +6,19 @@ import com.aldiramdan.library.model.entity.Category;
 import com.aldiramdan.library.repository.CategoryRepository;
 import com.aldiramdan.library.service.CategoryService;
 import com.aldiramdan.library.validator.CategoryValidator;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
-    @Autowired
-    private CategoryRepository categoryRepository;
-
-    @Autowired
-    private CategoryValidator categoryValidator;
+    private final CategoryRepository categoryRepository;
+    private final CategoryValidator categoryValidator;
 
     private ResponseData responseData;
 

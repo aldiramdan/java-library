@@ -6,21 +6,19 @@ import com.aldiramdan.library.model.entity.Publisher;
 import com.aldiramdan.library.repository.PublisherRepository;
 import com.aldiramdan.library.service.PublisherService;
 import com.aldiramdan.library.validator.PublisherValidator;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class PublisherServiceImpl implements PublisherService {
-    @Autowired
-    private PublisherRepository publisherRepository;
-
-    @Autowired
-    private PublisherValidator publisherValidator;
+    private final PublisherRepository publisherRepository;
+    private final PublisherValidator publisherValidator;
 
     private ResponseData responseData;
 

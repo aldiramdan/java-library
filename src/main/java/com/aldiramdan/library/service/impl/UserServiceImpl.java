@@ -8,10 +8,10 @@ import com.aldiramdan.library.model.entity.User;
 import com.aldiramdan.library.repository.UserRepository;
 import com.aldiramdan.library.service.UserService;
 import com.aldiramdan.library.validator.UserValidator;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,15 +19,12 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final UserValidator userValidator;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private UserValidator userValidator;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
     private ResponseData responseData;
 
     @Override
@@ -53,8 +50,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseData getByUsername(String username) throws Exception {
-        Optional<User> findUser = userRepository.findByUsername(username);
+    public ResponseData getByUsername(Long id) throws Exception {
+        Optional<User> findUser = userRepository.findById(id);
         userValidator.validateUserNotFound(findUser);
 
         ResponseUser result = new ResponseUser(findUser.get());
@@ -62,8 +59,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseData update(String username, UserRequest request) throws Exception {
-        Optional<User> findUser = userRepository.findByUsername(username);
+    public ResponseData update(Long id, UserRequest request) throws Exception {
+        Optional<User> findUser = userRepository.findById(id);
         userValidator.validateUserNotFound(findUser);
 
         User user = findUser.get();
@@ -95,10 +92,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseData changePassword(String username, ChangePasswordRequest request) throws Exception {
+    public ResponseData changePassword(Long id, ChangePasswordRequest request) throws Exception {
         userValidator.validateInvalidNewPassword(request.getNewPassword(), request.getConfirmPassword());
 
-        Optional<User> findUser = userRepository.findByUsername(username);
+        Optional<User> findUser = userRepository.findById(id);
         userValidator.validateUserNotFound(findUser);
 
         User user = findUser.get();
@@ -112,8 +109,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseData delete(String username) throws Exception {
-        Optional<User> findUser = userRepository.findByUsername(username);
+    public ResponseData delete(Long id) throws Exception {
+        Optional<User> findUser = userRepository.findById(id);
         userValidator.validateUserNotFound(findUser);
 
         User user = findUser.get();

@@ -12,12 +12,12 @@ import com.aldiramdan.library.service.AuthService;
 import com.aldiramdan.library.utils.GenerateRandom;
 import com.aldiramdan.library.validator.AuthValidator;
 import com.aldiramdan.library.validator.UserValidator;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -26,39 +26,19 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private UserValidator userValidator;
-
-    @Autowired
-    private AuthValidator authValidator;
-
-    @Autowired
-    private TokenRepository tokenRepository;
-
-    @Autowired
-    private VerificationCodeRepository verificationCodeRepository;
-
-    @Autowired
-    private VerificationTokenRepository verificationTokenRepository;
-
-    @Autowired
-    private RecoveryTokenRepository recoveryTokenRepository;
-
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private EmailSender emailSender;
+    private final UserRepository userRepository;
+    private final UserValidator userValidator;
+    private final AuthValidator authValidator;
+    private final TokenRepository tokenRepository;
+    private final VerificationCodeRepository verificationCodeRepository;
+    private final VerificationTokenRepository verificationTokenRepository;
+    private final RecoveryTokenRepository recoveryTokenRepository;
+    private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
+    private final EmailSender emailSender;
 
     private ResponseData responseData;
 
@@ -245,7 +225,7 @@ public class AuthServiceImpl implements AuthService {
 
         username = jwtService.extractUsername(refreshToken);
         if (username != null) {
-            User user = this.userRepository.findByUsername(username)
+            User user = userRepository.findByUsername(username)
                     .orElseThrow();
             if (jwtService.isTokenValid(refreshToken, user)) {
                 String accessToken = jwtService.generateToken(user);

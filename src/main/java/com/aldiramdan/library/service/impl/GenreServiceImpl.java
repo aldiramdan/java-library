@@ -6,19 +6,19 @@ import com.aldiramdan.library.model.entity.Genre;
 import com.aldiramdan.library.repository.GenreRepository;
 import com.aldiramdan.library.service.GenreService;
 import com.aldiramdan.library.validator.GenreValidator;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class GenreServiceImpl implements GenreService {
-    @Autowired
-    private GenreRepository genreRepository;
-
-    @Autowired
-    private GenreValidator genreValidator;
+    private final GenreRepository genreRepository;
+    private final GenreValidator genreValidator;
 
     private ResponseData responseData;
 

@@ -5,26 +5,24 @@ import com.aldiramdan.library.model.dto.response.ResponseLoan;
 import com.aldiramdan.library.model.entity.Loan;
 import com.aldiramdan.library.repository.LoanRepository;
 import com.aldiramdan.library.service.HistoryService;
-import com.aldiramdan.library.validator.LoanValidator;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class HistoryServiceImpl implements HistoryService {
-    @Autowired
-    private LoanRepository loanRepository;
-
-    @Autowired
-    private LoanValidator loanValidator;
+    private final LoanRepository loanRepository;
 
     private ResponseData responseData;
 
     @Override
-    public ResponseData getByUsername(String username) {
-        List<Loan> loanList = loanRepository.findUserByUsername(username);
+    public ResponseData getById(Long id) {
+        List<Loan> loanList = loanRepository.findUserById(id);
 
         List<ResponseLoan> listResult = new ArrayList<>();
         for (Loan l : loanList) {

@@ -6,21 +6,19 @@ import com.aldiramdan.library.model.entity.Author;
 import com.aldiramdan.library.repository.AuthorRepository;
 import com.aldiramdan.library.service.AuthorService;
 import com.aldiramdan.library.validator.AuthorValidator;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class AuthorServiceImpl implements AuthorService {
-    @Autowired
-    private AuthorRepository authorRepository;
-
-    @Autowired
-    private AuthorValidator authorValidator;
+    private final AuthorRepository authorRepository;
+    private final AuthorValidator authorValidator;
 
     private ResponseData responseData;
 

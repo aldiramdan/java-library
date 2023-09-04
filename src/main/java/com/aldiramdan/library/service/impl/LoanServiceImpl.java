@@ -13,9 +13,9 @@ import com.aldiramdan.library.service.LoanService;
 import com.aldiramdan.library.validator.BookValidator;
 import com.aldiramdan.library.validator.LoanValidator;
 import com.aldiramdan.library.validator.UserValidator;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,24 +23,14 @@ import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class LoanServiceImpl implements LoanService {
-    @Autowired
-    private LoanRepository loanRepository;
-
-    @Autowired
-    private LoanValidator loanValidator;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private UserValidator userValidator;
-
-    @Autowired
-    private BookRepository bookRepository;
-
-    @Autowired
-    private BookValidator bookValidator;
+    private final LoanRepository loanRepository;
+    private final LoanValidator loanValidator;
+    private final UserRepository userRepository;
+    private final UserValidator userValidator;
+    private final BookRepository bookRepository;
+    private final BookValidator bookValidator;
 
     private ResponseData responseData;
 
@@ -68,7 +58,7 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public ResponseData add(LoanRequest request) throws Exception {
-        Optional<User> findUser = userRepository.findByUsername(request.getUser());
+        Optional<User> findUser = userRepository.findById(request.getUser());
         userValidator.validateUserNotFound(findUser);
         userValidator.validateUserIsAlreadyDeleted(findUser.get());
 
@@ -96,7 +86,7 @@ public class LoanServiceImpl implements LoanService {
         Optional<Loan> findLoan = loanRepository.findById(id);
         loanValidator.validateLoanNotFound(findLoan);
 
-        Optional<User> findUser = userRepository.findByUsername(request.getUser());
+        Optional<User> findUser = userRepository.findById(request.getUser());
         userValidator.validateUserNotFound(findUser);
         userValidator.validateUserIsAlreadyDeleted(findUser.get());
 
@@ -122,7 +112,7 @@ public class LoanServiceImpl implements LoanService {
         Optional<Loan> findLoan = loanRepository.findById(id);
         loanValidator.validateLoanNotFound(findLoan);
 
-        Optional<User> findUser = userRepository.findByUsername(request.getUser());
+        Optional<User> findUser = userRepository.findById(request.getUser());
         userValidator.validateUserNotFound(findUser);
         userValidator.validateUserIsAlreadyDeleted(findUser.get());
 

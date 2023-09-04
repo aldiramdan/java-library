@@ -7,44 +7,26 @@ import com.aldiramdan.library.model.entity.*;
 import com.aldiramdan.library.repository.*;
 import com.aldiramdan.library.service.BookService;
 import com.aldiramdan.library.validator.*;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
-    @Autowired
-    private BookRepository bookRepository;
-
-    @Autowired
-    private BookValidator bookValidator;
-
-    @Autowired
-    private AuthorRepository authorRepository;
-
-    @Autowired
-    private AuthorValidator authorValidator;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
-
-    @Autowired
-    private CategoryValidator categoryValidator;
-
-    @Autowired
-    private GenreRepository genreRepository;
-
-    @Autowired
-    private GenreValidator genreValidator;
-
-    @Autowired
-    private PublisherRepository publisherRepository;
-
-    @Autowired
-    private PublisherValidator publisherValidator;
+    private final BookRepository bookRepository;
+    private final BookValidator bookValidator;
+    private final AuthorRepository authorRepository;
+    private final AuthorValidator authorValidator;
+    private final CategoryRepository categoryRepository;
+    private final CategoryValidator categoryValidator;
+    private final GenreRepository genreRepository;
+    private final GenreValidator genreValidator;
+    private final PublisherRepository publisherRepository;
+    private final PublisherValidator publisherValidator;
 
     private ResponseData responseData;
 
