@@ -4,15 +4,16 @@ import com.aldiramdan.library.model.dto.request.CategoryRequest;
 import com.aldiramdan.library.model.dto.response.ResponseData;
 import com.aldiramdan.library.service.CategoryService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/categories")
+@RequiredArgsConstructor
 public class CategoryController {
-    @Autowired
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
     private ResponseData responseData;
 

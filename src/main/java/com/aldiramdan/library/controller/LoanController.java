@@ -2,19 +2,19 @@ package com.aldiramdan.library.controller;
 
 import com.aldiramdan.library.model.dto.request.LoanRequest;
 import com.aldiramdan.library.model.dto.response.ResponseData;
+import com.aldiramdan.library.model.entity.User;
 import com.aldiramdan.library.service.LoanService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/loans")
+@RequiredArgsConstructor
 public class LoanController {
-    @Autowired
-    private LoanService loanService;
+    private final LoanService loanService;
 
     private ResponseData responseData;
 
@@ -31,15 +31,15 @@ public class LoanController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseData> create(@AuthenticationPrincipal UserDetails userDetails, @Valid @RequestBody LoanRequest request) throws Exception {
-        request.setUser(userDetails.getUsername());
+    public ResponseEntity<ResponseData> create(@AuthenticationPrincipal User user, @Valid @RequestBody LoanRequest request) throws Exception {
+        request.setUser(user.getId());
         responseData = loanService.add(request);
         return ResponseEntity.status(responseData.getCode()).body(responseData);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseData> update(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails, @Valid @RequestBody LoanRequest request) throws Exception {
-        request.setUser(userDetails.getUsername());
+    public ResponseEntity<ResponseData> update(@PathVariable Long id, @AuthenticationPrincipal User user, @Valid @RequestBody LoanRequest request) throws Exception {
+        request.setUser(user.getId());
         responseData = loanService.update(id, request);
         return ResponseEntity.status(responseData.getCode()).body(responseData);
     }

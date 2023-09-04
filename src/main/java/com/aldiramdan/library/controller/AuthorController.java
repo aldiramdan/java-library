@@ -4,15 +4,17 @@ import com.aldiramdan.library.model.dto.request.AuthorRequest;
 import com.aldiramdan.library.model.dto.response.ResponseData;
 import com.aldiramdan.library.service.AuthorService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/authors")
+@RequiredArgsConstructor
 public class AuthorController {
-    @Autowired
-    private AuthorService authorService;
+    private final AuthorService authorService;
 
     private ResponseData responseData;
 

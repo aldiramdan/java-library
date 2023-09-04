@@ -4,15 +4,16 @@ import com.aldiramdan.library.model.dto.request.BookRequest;
 import com.aldiramdan.library.model.dto.response.ResponseData;
 import com.aldiramdan.library.service.BookService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/books")
+@RequiredArgsConstructor
 public class BookController {
-    @Autowired
-    private BookService bookService;
+    private final BookService bookService;
 
     private ResponseData responseData;
 

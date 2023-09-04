@@ -3,19 +3,19 @@ package com.aldiramdan.library.controller;
 import com.aldiramdan.library.model.dto.request.ChangePasswordRequest;
 import com.aldiramdan.library.model.dto.request.UserRequest;
 import com.aldiramdan.library.model.dto.response.ResponseData;
+import com.aldiramdan.library.model.entity.User;
 import com.aldiramdan.library.service.UserService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
+@RequiredArgsConstructor
 public class UserController {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     private ResponseData responseData;
 
@@ -32,30 +32,26 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<ResponseData> profile(@AuthenticationPrincipal UserDetails userDetails) throws Exception {
-        String username = userDetails.getUsername();
-        responseData = userService.getByUsername(username);
+    public ResponseEntity<ResponseData> profile(@AuthenticationPrincipal User user) throws Exception {
+        responseData = userService.getByUsername(user.getId());
         return ResponseEntity.status(responseData.getCode()).body(responseData);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<ResponseData> update(@AuthenticationPrincipal UserDetails userDetails, @Valid @RequestBody UserRequest request) throws Exception {
-        String username = userDetails.getUsername();
-        responseData = userService.update(username, request);
+    public ResponseEntity<ResponseData> update(@AuthenticationPrincipal User user, @Valid @RequestBody UserRequest request) throws Exception {
+        responseData = userService.update(user.getId(), request);
         return ResponseEntity.status(responseData.getCode()).body(responseData);
     }
 
     @PatchMapping("/change-password")
-    public ResponseEntity<ResponseData> changePassword(@AuthenticationPrincipal UserDetails userDetails, @Valid @RequestBody ChangePasswordRequest request) throws Exception {
-        String username = userDetails.getUsername();
-        responseData = userService.changePassword(username, request);
+    public ResponseEntity<ResponseData> changePassword(@AuthenticationPrincipal User user, @Valid @RequestBody ChangePasswordRequest request) throws Exception {
+        responseData = userService.changePassword(user.getId(), request);
         return ResponseEntity.status(responseData.getCode()).body(responseData);
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<ResponseData> delete(@AuthenticationPrincipal UserDetails userDetails) throws Exception {
-        String username = userDetails.getUsername();
-        responseData = userService.delete(username);
+    public ResponseEntity<ResponseData> delete(@AuthenticationPrincipal User user) throws Exception {
+        responseData = userService.delete(user.getId());
         return ResponseEntity.status(responseData.getCode()).body(responseData);
     }
 }

@@ -4,15 +4,16 @@ import com.aldiramdan.library.model.dto.request.PublisherRequest;
 import com.aldiramdan.library.model.dto.response.ResponseData;
 import com.aldiramdan.library.service.PublisherService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/publishers")
+@RequiredArgsConstructor
 public class PublisherController {
-    @Autowired
-    private PublisherService publisherService;
+    private final PublisherService publisherService;
 
     private ResponseData responseData;
 
