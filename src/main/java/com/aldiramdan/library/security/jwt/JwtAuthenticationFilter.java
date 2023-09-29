@@ -1,10 +1,9 @@
-package com.aldiramdan.library.config.jwt;
+package com.aldiramdan.library.security.jwt;
 
 import com.aldiramdan.library.model.dto.response.ResponseError;
 import com.aldiramdan.library.repository.TokenRepository;
 import com.aldiramdan.library.security.SecurityConfiguration;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,7 +23,6 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -50,10 +48,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (Arrays.stream(SecurityConfiguration.whiteListedRoutes)
                         .anyMatch(route -> antPathMatcher.match(route, request.getServletPath())) ||
-                    Arrays.stream(SecurityConfiguration.whiteListedRoutes)
-                        .anyMatch(route -> antPathMatcher.match(route, request.getServletPath())) &&
-                    Arrays.stream(SecurityConfiguration.getWhiteListedRoutes)
-                            .anyMatch(route -> antPathMatcher.match(route, request.getServletPath())) ||
                     Objects.isNull(authHeader) || !authHeader.startsWith("Bearer ")) {
                 filterChain.doFilter(request, response);
                 return;
@@ -80,15 +74,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(request, response);
         } catch (RuntimeException e) {
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            ResponseError responseError = new ResponseError(HttpStatus.UNAUTHORIZED.value(), e.getMessage(), null);
+            log.warn("AuthenticationFilter Error: {}",e.getMessage());
+
+            response.resetBuffer();
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
-
-            log.warn(e.getMessage());
-            ResponseError responseError = new ResponseError(HttpStatus.UNAUTHORIZED.value(), LocalDateTime.now(), e.getMessage(), null);
-
-            final ObjectMapper mapper = new ObjectMapper();
-            mapper.registerModule(new JavaTimeModule());
-            mapper.writeValue(response.getOutputStream(), responseError);
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.getOutputStream().print(new ObjectMapper().writeValueAsString(responseError));
+            response.flushBuffer();
         }
     }
 }

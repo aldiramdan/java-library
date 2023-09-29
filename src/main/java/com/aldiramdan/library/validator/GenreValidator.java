@@ -1,6 +1,6 @@
 package com.aldiramdan.library.validator;
 
-import com.aldiramdan.library.exception.custom.FoundException;
+import com.aldiramdan.library.exception.custom.ConflictException;
 import com.aldiramdan.library.exception.custom.NotFoundException;
 import com.aldiramdan.library.exception.custom.NotProcessException;
 import com.aldiramdan.library.model.entity.Genre;
@@ -19,7 +19,7 @@ public class GenreValidator {
 
     public void validateGenreIsExists(Optional<Genre> findGenre) throws Exception {
         if (findGenre.isPresent()) {
-            throw new FoundException("Genre is found!");
+            throw new ConflictException("Genre is found!");
         }
     }
 

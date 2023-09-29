@@ -1,7 +1,6 @@
 package com.aldiramdan.library.validator;
 
 import com.aldiramdan.library.exception.custom.NotFoundException;
-import com.aldiramdan.library.exception.custom.NotProcessException;
 import com.aldiramdan.library.model.entity.RecoveryToken;
 import com.aldiramdan.library.model.entity.VerificationCode;
 import com.aldiramdan.library.model.entity.VerificationToken;
@@ -70,12 +69,6 @@ public class AuthValidator {
     public void validateExpireVerificationCode(Optional<VerificationCode> findToken) throws Exception {
         if (findToken.get().getExpiresAt().isBefore(LocalDateTime.now())) {
             throw new IllegalStateException("Code is already expired!");
-        }
-    }
-
-    public void validateInvalidCookiesCode(String reqCode, String dbCode) throws Exception {
-        if (!reqCode.equals(dbCode)) {
-            throw new NotProcessException("Invalid cookies detected!");
         }
     }
 }

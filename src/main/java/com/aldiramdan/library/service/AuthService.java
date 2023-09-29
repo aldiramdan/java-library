@@ -18,9 +18,9 @@ public interface AuthService {
 
     ResponseData recoveryForgotPassword(RecoveryRequest request) throws Exception;
 
-    ResponseData recoveryForgotPasswordConfirm(VerificationCodeRequest request, String email) throws Exception;
+    ResponseData recoveryForgotPasswordConfirm(VerificationCodeRequest request) throws Exception;
 
-    ResponseData recoveryResetPassword(ResetPasswordRequest request, String code) throws Exception;
+    ResponseData recoveryResetPassword(ResetPasswordRequest request) throws Exception;
 
-    ResponseData refreshToken(String refreshToken) throws IOException;
+    ResponseData refreshToken(String authHeader) throws IOException;
 }

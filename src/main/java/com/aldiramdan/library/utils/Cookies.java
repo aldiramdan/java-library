@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class Cookies {
     public static void setEmailCookie(HttpServletResponse response, String code) {
-        Cookie resetPasswordCookie = new Cookie("resetPasswordEmail", code);
+        Cookie resetPasswordCookie = new Cookie("_email", code);
 
         // Set the cookie path (optional, depending on your requirements)
         resetPasswordCookie.setPath("/");  // The cookie is available
@@ -18,7 +18,7 @@ public class Cookies {
     }
 
     public static void setCodeCookie(HttpServletResponse response, String code) {
-        Cookie resetPasswordCookie = new Cookie("resetPasswordCode", code);
+        Cookie resetPasswordCookie = new Cookie("_code", code);
 
         // Set the cookie path (optional, depending on your requirements)
         resetPasswordCookie.setPath("/");  // The cookie is available

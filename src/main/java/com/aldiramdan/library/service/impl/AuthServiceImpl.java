@@ -1,7 +1,7 @@
 package com.aldiramdan.library.service.impl;
 
-import com.aldiramdan.library.config.jwt.JwtService;
-import com.aldiramdan.library.config.mail.EmailSender;
+import com.aldiramdan.library.security.jwt.JwtService;
+import com.aldiramdan.library.service.SenderMailService;
 import com.aldiramdan.library.model.dto.request.*;
 import com.aldiramdan.library.model.dto.response.ResponseData;
 import com.aldiramdan.library.model.dto.response.ResponseToken;
@@ -38,7 +38,7 @@ public class AuthServiceImpl implements AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
-    private final EmailSender emailSender;
+    private final SenderMailService senderMailService;
 
     private ResponseData responseData;
 
@@ -98,7 +98,7 @@ public class AuthServiceImpl implements AuthService {
 
         verificationTokenRepository.save(verificationToken);
 
-        emailSender.sendMail(user, tokenCode, "/register/confirm", "Confirm your account");
+        senderMailService.confirmRegister(user, tokenCode);
 
         ResponseUser result = new ResponseUser(user);
         return responseData = new ResponseData(201, "Success", result);
@@ -139,7 +139,7 @@ public class AuthServiceImpl implements AuthService {
 
         recoveryTokenRepository.save(recoveryToken);
 
-        emailSender.sendMail(user, tokenCode, "/recovery/confirm", "Recovery your account");
+        senderMailService.recoveryAccount(user, tokenCode);
         return responseData = new ResponseData(200, "Successfully send mail recovery account", null);
     }
 
@@ -180,13 +180,13 @@ public class AuthServiceImpl implements AuthService {
 
         verificationCodeRepository.save(verificationCode);
 
-        emailSender.sendMail(user, tokenCode, "/recovery/reset-password/confirm", "Forgot Password");
+        senderMailService.forgotPassword(user, tokenCode);
         return responseData = new ResponseData(200, "Successfully send mail forgot password", null);
     }
 
     @Override
-    public ResponseData recoveryForgotPasswordConfirm(VerificationCodeRequest request, String email) throws Exception {
-        Optional<User> findByEmail = userRepository.findByEmail(email);
+    public ResponseData recoveryForgotPasswordConfirm(VerificationCodeRequest request) throws Exception {
+        Optional<User> findByEmail = userRepository.findByEmail(request.getEmail());
         userValidator.validateUserNotFound(findByEmail);
 
 
@@ -194,7 +194,6 @@ public class AuthServiceImpl implements AuthService {
         authValidator.validateVerificationCodeNotFound(findCode);
         authValidator.validateAlreadyVerificationCode(findCode);
         authValidator.validateExpireVerificationCode(findCode);
-        userValidator.validateInvalidCookiesEmail(email, findCode.get().getUser().getEmail());
 
         VerificationCode verificationCode = findCode.get();
         verificationCode.setConfirmedAt(LocalDateTime.now());
@@ -204,14 +203,13 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public ResponseData recoveryResetPassword(ResetPasswordRequest request, String code) throws Exception {
+    public ResponseData recoveryResetPassword(ResetPasswordRequest request) throws Exception {
         userValidator.validateInvalidNewPassword(request.getNewPassword(), request.getConfirmPassword());
 
-        Optional<VerificationCode> findCode = verificationCodeRepository.findByCode(code);
+        Optional<VerificationCode> findCode = verificationCodeRepository.findByCode(request.getCode());
         authValidator.validateVerificationCodeNotFound(findCode);
         authValidator.validateNotAlreadyVerificationCode(findCode);
         authValidator.validateExpireVerificationCode(findCode);
-        authValidator.validateInvalidCookiesCode(code, findCode.get().getCode());
 
         User user = findCode.get().getUser();
         user.setPassword(passwordEncoder.encode(request.getConfirmPassword()));
@@ -220,10 +218,9 @@ public class AuthServiceImpl implements AuthService {
         return responseData = new ResponseData(200, "Successfully reset password", null);
     }
 
-    public ResponseData refreshToken(String refreshToken) throws IOException {
-        final String username;
-
-        username = jwtService.extractUsername(refreshToken);
+    public ResponseData refreshToken(String authHeader) throws IOException {
+        String refreshToken = authHeader.substring(7);
+        String username = jwtService.extractUsername(refreshToken);
         if (username != null) {
             User user = userRepository.findByUsername(username)
                     .orElseThrow();

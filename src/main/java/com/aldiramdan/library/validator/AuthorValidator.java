@@ -1,6 +1,6 @@
 package com.aldiramdan.library.validator;
 
-import com.aldiramdan.library.exception.custom.FoundException;
+import com.aldiramdan.library.exception.custom.ConflictException;
 import com.aldiramdan.library.exception.custom.NotFoundException;
 import com.aldiramdan.library.exception.custom.NotProcessException;
 import com.aldiramdan.library.model.entity.Author;
@@ -19,7 +19,7 @@ public class AuthorValidator {
 
     public void validateAuthorIsExists(Optional<Author> findAuthor) throws Exception {
         if (findAuthor.isPresent()) {
-            throw new FoundException("Author is found!");
+            throw new ConflictException("Author is found!");
         }
     }
 

@@ -1,7 +1,7 @@
 package com.aldiramdan.library.validator;
 
 import com.aldiramdan.library.exception.custom.BadRequestException;
-import com.aldiramdan.library.exception.custom.FoundException;
+import com.aldiramdan.library.exception.custom.ConflictException;
 import com.aldiramdan.library.exception.custom.NotFoundException;
 import com.aldiramdan.library.exception.custom.NotProcessException;
 import com.aldiramdan.library.model.entity.User;
@@ -19,13 +19,13 @@ public class UserValidator {
 
     public void validateUsernameIsExists(Optional<User> findByUsername) throws Exception {
         if (findByUsername.isPresent()) {
-            throw new FoundException("Username has been regitered!");
+            throw new ConflictException("Username has been regitered!");
         }
     }
 
     public void validateEmailIsExists(Optional<User> findByEmail) throws Exception {
         if (findByEmail.isPresent()) {
-            throw new FoundException("Email has been regitered!");
+            throw new ConflictException("Email has been regitered!");
         }
     }
 
@@ -56,12 +56,6 @@ public class UserValidator {
     public void validateInvalidNewPassword(String newPassword, String confirmPassword) throws Exception {
         if (!newPassword.equals(confirmPassword)) {
             throw new BadRequestException("New password and Confirm password do not match!");
-        }
-    }
-
-    public void validateInvalidCookiesEmail(String reqEmail, String dbEmail) throws Exception {
-        if (!reqEmail.equals(dbEmail)) {
-            throw new NotProcessException("Invalid cookies detected!");
         }
     }
 }

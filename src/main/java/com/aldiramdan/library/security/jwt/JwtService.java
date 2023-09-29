@@ -1,4 +1,4 @@
-package com.aldiramdan.library.config.jwt;
+package com.aldiramdan.library.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

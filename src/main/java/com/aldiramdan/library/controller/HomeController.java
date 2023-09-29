@@ -22,6 +22,6 @@ public class HomeController {
         mapResponse.put("docs", "");
 
         responseData = new ResponseData(200, "Success", mapResponse);
-        return ResponseEntity.status(responseData.getCode()).body(responseData);
+        return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 }
