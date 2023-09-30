@@ -25,8 +25,6 @@ public class UserServiceImpl implements UserService {
     private final UserValidator userValidator;
     private final PasswordEncoder passwordEncoder;
 
-    private ResponseData responseData;
-
     @Override
     public ResponseData getAll() {
         List<User> listUser = userRepository.findAll();
@@ -37,7 +35,7 @@ public class UserServiceImpl implements UserService {
             listResult.add(temp);
         }
 
-        return responseData = new ResponseData(200, "Success", listResult);
+        return new ResponseData(200, "Success", listResult);
     }
 
     @Override
@@ -45,8 +43,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> findUser = userRepository.findById(id);
         userValidator.validateUserNotFound(findUser);
 
-        ResponseUser result = new ResponseUser(findUser.get());
-        return responseData = new ResponseData(200, "Success", result);
+        return new ResponseData(200, "Success", new ResponseUser(findUser.get()));
     }
 
     @Override
@@ -54,8 +51,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> findUser = userRepository.findById(id);
         userValidator.validateUserNotFound(findUser);
 
-        ResponseUser result = new ResponseUser(findUser.get());
-        return responseData = new ResponseData(200, "Success", result);
+        return new ResponseData(200, "Success", new ResponseUser(findUser.get()));
     }
 
     @Override
@@ -63,63 +59,52 @@ public class UserServiceImpl implements UserService {
         Optional<User> findUser = userRepository.findById(id);
         userValidator.validateUserNotFound(findUser);
 
-        User user = findUser.get();
-
-        if (user.getUsername() != request.getUsername() || user.getEmail() != request.getEmail()) {
-            if (user.getUsername() != request.getUsername()) {
-                Optional<User> findByUsername = userRepository.findByUsername(request.getUsername());
-                userValidator.validateUsernameIsExists(findByUsername);
-
-                user.setUsername(request.getUsername());
-            }
-
-            if (user.getEmail() != request.getEmail()) {
-                Optional<User> findByEmail = userRepository.findByEmail(request.getEmail());
-                userValidator.validateEmailIsExists(findByEmail);
-
-                user.setEmail(request.getEmail());
-            }
+        Optional<User> findByUsername = userRepository.findByUsername(request.getUsername());
+        if (!findUser.get().getUsername().equals(findByUsername.get().getUsername())) {
+            userValidator.validateUserUsernameIsExists(findByUsername);
+            findUser.get().setUsername(request.getUsername());
         }
 
-        user.setName(request.getName());
-        user.setUsername(user.getUsername());
-        user.setEmail(user.getEmail());
+        Optional<User> findByEmail = userRepository.findByEmail(request.getEmail());
+        if (!findUser.get().getEmail().equals(findByEmail.get().getEmail())) {
+            userValidator.validateUserEmailIsExists(findByEmail);
 
-        userRepository.save(user);
+            findUser.get().setEmail(request.getEmail());
+            findUser.get().setIsActives(false);
+        }
 
-        ResponseUser result = new ResponseUser(user);
-        return responseData = new ResponseData(200, "Success", result);
+        findUser.get().setName(request.getName());
+        findUser.get().setUsername(findUser.get().getUsername());
+        findUser.get().setEmail(findUser.get().getEmail());
+        userRepository.save(findUser.get());
+
+        return new ResponseData(200, "Success", new ResponseUser(findUser.get()));
     }
 
     @Override
     public ResponseData changePassword(Long id, ChangePasswordRequest request) throws Exception {
-        userValidator.validateInvalidNewPassword(request.getNewPassword(), request.getConfirmPassword());
+        userValidator.validateUserPasswordNotMatch(request.getNewPassword(), request.getConfirmPassword());
+        userValidator.validateUserCheckPasswordStrength(request.getConfirmPassword());
 
         Optional<User> findUser = userRepository.findById(id);
         userValidator.validateUserNotFound(findUser);
+        userValidator.validateUserInvalidOldPassword(request.getOldPassword(), findUser.get().getPassword());
 
-        User user = findUser.get();
-        userValidator.validateInvalidOldPassword(request.getOldPassword(), user.getPassword());
+        findUser.get().setPassword(passwordEncoder.encode(request.getConfirmPassword()));
+        userRepository.save(findUser.get());
 
-        user.setPassword(passwordEncoder.encode(request.getConfirmPassword()));
-
-        userRepository.save(user);
-
-        return responseData = new ResponseData(200, "Success updated password", null);
+        return new ResponseData(200, "Success updated password", null);
     }
 
     @Override
     public ResponseData delete(Long id) throws Exception {
         Optional<User> findUser = userRepository.findById(id);
         userValidator.validateUserNotFound(findUser);
+        userValidator.validateUserIsAlreadyDeleted(findUser.get());
 
-        User user = findUser.get();
-        userValidator.validateUserIsAlreadyDeleted(user);
+        findUser.get().setIsDeleted(true);
+        userRepository.save(findUser.get());
 
-        user.setIsDeleted(true);
-
-        userRepository.save(user);
-
-        return responseData = new ResponseData(200, "Successfully deleted user", null);
+        return new ResponseData(200, "Successfully deleted user", null);
     }
 }

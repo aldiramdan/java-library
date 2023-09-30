@@ -5,24 +5,24 @@ import com.aldiramdan.library.exception.custom.ConflictException;
 import com.aldiramdan.library.exception.custom.NotFoundException;
 import com.aldiramdan.library.exception.custom.NotProcessException;
 import com.aldiramdan.library.model.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class UserValidator {
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    public void validateUsernameIsExists(Optional<User> findByUsername) throws Exception {
+    public void validateUserUsernameIsExists(Optional<User> findByUsername) throws Exception {
         if (findByUsername.isPresent()) {
             throw new ConflictException("Username has been regitered!");
         }
     }
 
-    public void validateEmailIsExists(Optional<User> findByEmail) throws Exception {
+    public void validateUserEmailIsExists(Optional<User> findByEmail) throws Exception {
         if (findByEmail.isPresent()) {
             throw new ConflictException("Email has been regitered!");
         }
@@ -46,13 +46,13 @@ public class UserValidator {
         }
     }
 
-    public void validateInvalidOldPassword(String oldPassword, String dbPassword) throws Exception {
+    public void validateUserInvalidOldPassword(String oldPassword, String dbPassword) throws Exception {
         if (!passwordEncoder.matches(oldPassword, dbPassword)) {
             throw new BadRequestException("Old password is incorrect!");
         }
     }
 
-    public void validateInvalidNewPassword(String newPassword, String confirmPassword) throws Exception {
+    public void validateUserPasswordNotMatch(String newPassword, String confirmPassword) throws Exception {
         if (!newPassword.equals(confirmPassword)) {
             throw new BadRequestException("New password and Confirm password do not match!");
         }

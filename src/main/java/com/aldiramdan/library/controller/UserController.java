@@ -18,47 +18,45 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    private ResponseData responseData;
-
     @GetMapping
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ResponseData> getAll() {
-        responseData = userService.getAll();
+        ResponseData responseData = userService.getAll();
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ResponseData> getById(@PathVariable Long id) throws Exception {
-        responseData = userService.getById(id);
+        ResponseData responseData = userService.getById(id);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @GetMapping("/me")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     public ResponseEntity<ResponseData> profile(@AuthenticationPrincipal User user) throws Exception {
-        responseData = userService.getByUsername(user.getId());
+        ResponseData responseData = userService.getByUsername(user.getId());
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @PutMapping("/update")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     public ResponseEntity<ResponseData> update(@AuthenticationPrincipal User user, @Valid @RequestBody UserRequest request) throws Exception {
-        responseData = userService.update(user.getId(), request);
+        ResponseData responseData = userService.update(user.getId(), request);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @PatchMapping("/change-password")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     public ResponseEntity<ResponseData> changePassword(@AuthenticationPrincipal User user, @Valid @RequestBody ChangePasswordRequest request) throws Exception {
-        responseData = userService.changePassword(user.getId(), request);
+        ResponseData responseData = userService.changePassword(user.getId(), request);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @DeleteMapping("/delete")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     public ResponseEntity<ResponseData> delete(@AuthenticationPrincipal User user) throws Exception {
-        responseData = userService.delete(user.getId());
+        ResponseData responseData = userService.delete(user.getId());
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 }

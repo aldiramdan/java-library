@@ -66,10 +66,10 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public ResponseData register(RegisterRequest request) throws Exception {
         Optional<User> findByUsername = userRepository.findByUsername(request.getUsername());
-        userValidator.validateUsernameIsExists(findByUsername);
+        userValidator.validateUserUsernameIsExists(findByUsername);
 
         Optional<User> findByEmail = userRepository.findByEmail(request.getEmail());
-        userValidator.validateEmailIsExists(findByEmail);
+        userValidator.validateUserEmailIsExists(findByEmail);
         userValidator.validateUserCheckPasswordStrength(request.getPassword());
 
         User user = new User();
@@ -190,7 +190,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public ResponseData recoveryResetPassword(ResetPasswordRequest request) throws Exception {
-        userValidator.validateInvalidNewPassword(request.getNewPassword(), request.getConfirmPassword());
+        userValidator.validateUserPasswordNotMatch(request.getNewPassword(), request.getConfirmPassword());
         userValidator.validateUserCheckPasswordStrength(request.getConfirmPassword());
 
         Optional<VerificationCode> findCode = verificationCodeRepository.findByCode(request.getCode());
