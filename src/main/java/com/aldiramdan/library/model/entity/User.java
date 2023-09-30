@@ -42,10 +42,6 @@ public class User implements UserDetails {
     @JsonIgnore
     private Boolean isDeleted = false;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    private List<Token> tokens;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

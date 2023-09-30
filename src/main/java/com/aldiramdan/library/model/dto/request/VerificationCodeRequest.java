@@ -16,6 +16,6 @@ public class VerificationCodeRequest {
     private String email;
 
     @NotBlank(message = "code is required")
-    @Size(max = 6, message = "password must be minimum 8 characters")
+    @Size(max = 6, message = "code must be minimum 6 characters")
     private String code;
 }

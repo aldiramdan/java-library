@@ -9,8 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserValidator {
@@ -56,6 +55,31 @@ public class UserValidator {
     public void validateInvalidNewPassword(String newPassword, String confirmPassword) throws Exception {
         if (!newPassword.equals(confirmPassword)) {
             throw new BadRequestException("New password and Confirm password do not match!");
+        }
+    }
+
+    public void validateUserCheckPasswordStrength(String password) throws Exception {
+        boolean hasLower = false, hasUpper = false,
+                hasDigit = false, specialChar = false;
+
+        Set<Character> set = new HashSet<Character>(
+                Arrays.asList('!', '@', '#', '$', '%', '^', '&',
+                        '*', '(', ')', '-', '+'));
+
+        for (char i : password.toCharArray())
+        {
+            if (Character.isLowerCase(i))
+                hasLower = true;
+            if (Character.isUpperCase(i))
+                hasUpper = true;
+            if (Character.isDigit(i))
+                hasDigit = true;
+            if (set.contains(i))
+                specialChar = true;
+        }
+
+        if (!hasLower && !hasUpper && !specialChar && !hasDigit) {
+            throw new BadRequestException("Password so week, please input upper, lower, digit and symbol in character");
         }
     }
 }
