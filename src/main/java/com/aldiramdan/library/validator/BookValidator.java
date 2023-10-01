@@ -22,9 +22,15 @@ public class BookValidator {
         }
     }
 
-    public void validateBookIsAlreadyDeleted(Book book) throws Exception {
-        if (Objects.nonNull(book.getIsDeleted()) && book.getIsDeleted()) {
+    public void validateBookIsAlreadyDeleted(Optional<Book> findBook) throws Exception {
+        if (Objects.nonNull(findBook.get().getIsDeleted()) && findBook.get().getIsDeleted()) {
             throw new NotProcessException("Book is already deleted!");
+        }
+    }
+
+    public void validateBookIsAlreadyRecovery(Optional<Book> findBook) throws Exception {
+        if (!findBook.get().getIsDeleted()) {
+            throw new NotProcessException("Book is already recovery!");
         }
     }
 }

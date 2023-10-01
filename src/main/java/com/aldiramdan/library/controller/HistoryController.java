@@ -17,12 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class HistoryController {
     private final HistoryService historyService;
 
-    private ResponseData responseData;
-
     @GetMapping
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
     public ResponseEntity<ResponseData> getAll(@AuthenticationPrincipal User user) throws Exception {
-        responseData = historyService.getById(user.getId());
+        ResponseData responseData = historyService.getById(user.getId());
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 }

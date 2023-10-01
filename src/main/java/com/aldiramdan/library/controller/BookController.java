@@ -15,51 +15,49 @@ import org.springframework.web.bind.annotation.*;
 public class BookController {
     private final BookService bookService;
 
-    private ResponseData responseData;
-
     @GetMapping
     public ResponseEntity<ResponseData> getAll(@RequestParam(defaultValue = "") Boolean status) {
-        responseData = bookService.getAll(status);
+        ResponseData responseData = bookService.getAll(status);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseData> getById(@PathVariable Long id) throws Exception {
-        responseData = bookService.getById(id);
+        ResponseData responseData = bookService.getById(id);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @GetMapping("/search/{column}")
     public ResponseEntity<ResponseData> searchByName(@PathVariable String column, @RequestParam String name) {
-        responseData = bookService.searchByName(column, name);
+        ResponseData responseData = bookService.searchByName(column, name);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ResponseData> create(@Valid @RequestBody BookRequest request) throws Exception {
-        responseData = bookService.add(request);
+        ResponseData responseData = bookService.add(request);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ResponseData> update(@PathVariable Long id, @Valid @RequestBody BookRequest request) throws Exception {
-        responseData = bookService.update(id, request);
+        ResponseData responseData = bookService.update(id, request);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ResponseData> delete(@PathVariable Long id) throws Exception {
-        responseData = bookService.delete(id);
+        ResponseData responseData = bookService.delete(id);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @PostMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ResponseData> recovery(@PathVariable Long id) throws Exception {
-        responseData = bookService.recovery(id);
+        ResponseData responseData = bookService.recovery(id);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 }

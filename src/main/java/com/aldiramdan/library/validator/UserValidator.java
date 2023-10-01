@@ -40,12 +40,6 @@ public class UserValidator {
         }
     }
 
-    public void validateUserIsAlreadyDeleted(User user) throws Exception {
-        if (Objects.nonNull(user.getIsDeleted()) && user.getIsDeleted()) {
-            throw new NotProcessException("User is already deleted!");
-        }
-    }
-
     public void validateUserInvalidOldPassword(String oldPassword, String dbPassword) throws Exception {
         if (!passwordEncoder.matches(oldPassword, dbPassword)) {
             throw new BadRequestException("Old password is incorrect!");
@@ -80,6 +74,18 @@ public class UserValidator {
 
         if (!hasLower && !hasUpper && !specialChar && !hasDigit) {
             throw new BadRequestException("Password so week, please input upper, lower, digit and symbol in character");
+        }
+    }
+
+    public void validateUserIsAlreadyDeleted(Optional<User> findUser) throws Exception {
+        if (Objects.nonNull(findUser.get().getIsDeleted()) && findUser.get().getIsDeleted()) {
+            throw new NotProcessException("User is already deleted!");
+        }
+    }
+
+    public void validateUserIsAlreadyRecovery(Optional<User> findUser) throws Exception {
+        if (!findUser.get().getIsDeleted()) {
+            throw new NotProcessException("User is already recvoery!");
         }
     }
 }

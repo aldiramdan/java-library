@@ -23,9 +23,15 @@ public class GenreValidator {
         }
     }
 
-    public void validateCategoryIsAlreadyDeleted(Genre genre) throws Exception {
-        if (Objects.nonNull(genre.getIsDeleted()) && genre.getIsDeleted()) {
+    public void validateCategoryIsAlreadyDeleted(Optional<Genre> findGenre) throws Exception {
+        if (Objects.nonNull(findGenre.get().getIsDeleted()) && findGenre.get().getIsDeleted()) {
             throw new NotProcessException("Genre is already deleted!");
+        }
+    }
+
+    public void validateCategoryIsAlreadyRecovery(Optional<Genre> findGenre) throws Exception {
+        if (!findGenre.get().getIsDeleted()) {
+            throw new NotProcessException("Genre is already recovery!");
         }
     }
 }

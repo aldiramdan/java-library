@@ -12,8 +12,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/")
 public class HomeController {
-    private ResponseData responseData;
-
     @GetMapping
     public ResponseEntity<ResponseData> home() {
         Map<String, Object> mapResponse = new HashMap<>();
@@ -21,7 +19,7 @@ public class HomeController {
         mapResponse.put("demo", "");
         mapResponse.put("docs", "");
 
-        responseData = new ResponseData(200, "Success", mapResponse);
+        ResponseData responseData = new ResponseData(200, "Success", mapResponse);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 }

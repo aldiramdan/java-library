@@ -10,7 +10,7 @@ import java.util.concurrent.Executor;
 
 @EnableAsync
 @Configuration
-@ComponentScan(basePackages = {"com.example.async"})
+@ComponentScan(basePackages = {"com.aldiramdan.library"})
 public class AsyncConfig {
     @Bean(name = "asyncExecutor")
     public Executor asyncExecutor() {

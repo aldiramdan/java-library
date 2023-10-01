@@ -23,9 +23,15 @@ public class PublisherValidator {
         }
     }
 
-    public void validatePublisherIsAlreadyDeleted(Publisher publisher) throws Exception {
-        if (Objects.nonNull(publisher.getIsDeleted()) && publisher.getIsDeleted()) {
+    public void validatePublisherIsAlreadyDeleted(Optional<Publisher> findPublisher) throws Exception {
+        if (Objects.nonNull(findPublisher.get().getIsDeleted()) && findPublisher.get().getIsDeleted()) {
             throw new NotProcessException("Publisher is already deleted!");
+        }
+    }
+
+    public void validatePublisherIsAlreadyRecovery(Optional<Publisher> findPublisher) throws Exception {
+        if (!findPublisher.get().getIsDeleted()) {
+            throw new NotProcessException("Publisher is already recovery!");
         }
     }
 }

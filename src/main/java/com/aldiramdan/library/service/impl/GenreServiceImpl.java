@@ -20,13 +20,11 @@ public class GenreServiceImpl implements GenreService {
     private final GenreRepository genreRepository;
     private final GenreValidator genreValidator;
 
-    private ResponseData responseData;
-
     @Override
     public ResponseData getAll() {
         List<Genre> listGenre = genreRepository.findAll();
 
-        return responseData = new ResponseData(200, "Success", listGenre);
+        return new ResponseData(200, "Success", listGenre);
     }
 
     @Override
@@ -34,7 +32,7 @@ public class GenreServiceImpl implements GenreService {
         Optional<Genre> findGenre = genreRepository.findById(id);
         genreValidator.validateGenreNotFound(findGenre);
 
-        return responseData = new ResponseData(200, "Success", findGenre);
+        return new ResponseData(200, "Success", findGenre);
     }
 
     @Override
@@ -44,10 +42,9 @@ public class GenreServiceImpl implements GenreService {
 
         Genre genre = new Genre();
         genre.setName(request.getName());
-
         genreRepository.save(genre);
 
-        return responseData = new ResponseData(201, "Success", genre);
+        return new ResponseData(201, "Success", genre);
     }
 
     @Override
@@ -55,47 +52,37 @@ public class GenreServiceImpl implements GenreService {
         Optional<Genre> findGenre = genreRepository.findById(id);
         genreValidator.validateGenreNotFound(findGenre);
 
-        Genre genre = findGenre.get();
-        if (genre.getName() != request.getName()) {
+        if (findGenre.get().getName() != request.getName()) {
             Optional<Genre> findGenreByName = genreRepository.findByName(request.getName());
             genreValidator.validateGenreIsExists(findGenreByName);
-
-            genre.setName(request.getName());
+            findGenre.get().setName(request.getName());
         }
-        genre.setName(genre.getName());
+        genreRepository.save(findGenre.get());
 
-        genreRepository.save(genre);
-
-        return responseData = new ResponseData(200, "Success", genre);
+        return new ResponseData(200, "Success", findGenre.get());
     }
 
     @Override
     public ResponseData delete(Long id) throws Exception {
         Optional<Genre> findGenre = genreRepository.findById(id);
         genreValidator.validateGenreNotFound(findGenre);
+        genreValidator.validateCategoryIsAlreadyDeleted(findGenre);
 
-        Genre genre = findGenre.get();
-        genreValidator.validateCategoryIsAlreadyDeleted(genre);
+        findGenre.get().setIsDeleted(true);
+        genreRepository.save(findGenre.get());
 
-        genre.setIsDeleted(true);
-
-        genreRepository.save(genre);
-
-        return responseData = new ResponseData(200, "Success", null);
+        return new ResponseData(200, "Successfully deleted genre", null);
     }
 
     @Override
     public ResponseData recovery(Long id) throws Exception {
         Optional<Genre> findGenre = genreRepository.findById(id);
         genreValidator.validateGenreNotFound(findGenre);
+        genreValidator.validateCategoryIsAlreadyRecovery(findGenre);
 
-        Genre genre = findGenre.get();
-        genreValidator.validateCategoryIsAlreadyDeleted(genre);
+        findGenre.get().setIsDeleted(false);
+        genreRepository.save(findGenre.get());
 
-        genre.setIsDeleted(false);
-
-        genreRepository.save(genre);
-
-        return responseData = new ResponseData(200, "Successfully recovery genre", null);
+        return new ResponseData(200, "Successfully recovery genre", null);
     }
 }

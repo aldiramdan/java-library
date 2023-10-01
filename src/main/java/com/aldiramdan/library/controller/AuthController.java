@@ -34,7 +34,7 @@ public class AuthController {
 
     @PostMapping("/recovery")
     public ResponseEntity<ResponseData> recovery(@Valid @RequestBody RecoveryRequest request) throws Exception {
-        ResponseData responseData = authService.recover(request);
+        ResponseData responseData = authService.recovery(request);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 

@@ -15,45 +15,43 @@ import org.springframework.web.bind.annotation.*;
 public class PublisherController {
     private final PublisherService publisherService;
 
-    private ResponseData responseData;
-
     @GetMapping
     public ResponseEntity<ResponseData> getAll() {
-        responseData = publisherService.getAll();
+        ResponseData responseData = publisherService.getAll();
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseData> getById(@PathVariable Long id) throws Exception {
-        responseData = publisherService.getById(id);
+        ResponseData responseData = publisherService.getById(id);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ResponseData> create(@Valid @RequestBody PublisherRequest request) throws Exception {
-        responseData = publisherService.add(request);
+        ResponseData responseData = publisherService.add(request);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ResponseData> update(@PathVariable Long id, @Valid @RequestBody PublisherRequest request) throws Exception {
-        responseData = publisherService.update(id, request);
+        ResponseData responseData = publisherService.update(id, request);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ResponseData> delete(@PathVariable Long id) throws Exception {
-        responseData = publisherService.delete(id);
+        ResponseData responseData = publisherService.delete(id);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @PostMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ResponseData> recovery(@PathVariable Long id) throws Exception {
-        responseData = publisherService.recovery(id);
+        ResponseData responseData = publisherService.recovery(id);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 }

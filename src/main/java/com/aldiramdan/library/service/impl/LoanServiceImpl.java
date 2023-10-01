@@ -32,8 +32,6 @@ public class LoanServiceImpl implements LoanService {
     private final BookRepository bookRepository;
     private final BookValidator bookValidator;
 
-    private ResponseData responseData;
-
     @Override
     public ResponseData getAll() {
         List<Loan> loanList = loanRepository.findAll();
@@ -44,7 +42,7 @@ public class LoanServiceImpl implements LoanService {
             listResult.add(temp);
         }
 
-        return responseData = new ResponseData(200, "Success", listResult);
+        return new ResponseData(200, "Success", listResult);
     }
 
     @Override
@@ -52,33 +50,31 @@ public class LoanServiceImpl implements LoanService {
         Optional<Loan> findLoan = loanRepository.findById(id);
         loanValidator.validateLoanNotFound(findLoan);
 
-        ResponseLoan result = new ResponseLoan(findLoan.get());
-        return responseData = new ResponseData(200, "Success", result);
+        return new ResponseData(200, "Success", new ResponseLoan(findLoan.get()));
     }
 
     @Override
     public ResponseData add(LoanRequest request) throws Exception {
-        Optional<User> findUser = userRepository.findById(request.getUser());
+        Optional<User> findUser = userRepository.findById(request.getUserId());
         userValidator.validateUserNotFound(findUser);
         userValidator.validateUserIsAlreadyDeleted(findUser.get());
 
         Optional<Book> findBook = bookRepository.findById(request.getBook());
         bookValidator.validateBookNotFound(findBook);
         bookValidator.validateBookIsBorrowed(findBook);
-        bookValidator.validateBookIsAlreadyDeleted(findBook.get());
+        bookValidator.validateBookIsAlreadyDeleted(findBook);
 
         Loan loan = new Loan();
         loan.setUser(findUser.get());
         loan.setBook(findBook.get());
         loan.setBorrowDate(request.getBorrowDate());
         loan.setDueDate(request.getDueDate());
-
         loanRepository.save(loan);
 
         findBook.get().setIsBorrowed(true);
+        bookRepository.save(findBook.get());
 
-        ResponseLoan result = new ResponseLoan(loan);
-        return responseData = new ResponseData(201, "Success", result);
+        return new ResponseData(201, "Success", new ResponseLoan(loan));
     }
 
     @Override
@@ -86,25 +82,22 @@ public class LoanServiceImpl implements LoanService {
         Optional<Loan> findLoan = loanRepository.findById(id);
         loanValidator.validateLoanNotFound(findLoan);
 
-        Optional<User> findUser = userRepository.findById(request.getUser());
+        Optional<User> findUser = userRepository.findById(request.getUserId());
         userValidator.validateUserNotFound(findUser);
         userValidator.validateUserIsAlreadyDeleted(findUser.get());
 
         Optional<Book> findBook = bookRepository.findById(request.getBook());
         bookValidator.validateBookNotFound(findBook);
         bookValidator.validateBookIsBorrowed(findBook);
-        bookValidator.validateBookIsAlreadyDeleted(findBook.get());
+        bookValidator.validateBookIsAlreadyDeleted(findBook);
 
-        Loan loan = findLoan.get();
-        loan.setUser(findUser.get());
-        loan.setBook(findBook.get());
-        loan.setBorrowDate(request.getBorrowDate());
-        loan.setDueDate(request.getDueDate());
+        findLoan.get().setUser(findUser.get());
+        findLoan.get().setBook(findBook.get());
+        findLoan.get().setBorrowDate(request.getBorrowDate());
+        findLoan.get().setDueDate(request.getDueDate());
+        loanRepository.save(findLoan.get());
 
-        loanRepository.save(loan);
-
-        ResponseLoan result = new ResponseLoan(loan);
-        return responseData = new ResponseData(200, "Success", result);
+        return new ResponseData(200, "Success", new ResponseLoan(findLoan.get()));
     }
 
     @Override
@@ -112,57 +105,53 @@ public class LoanServiceImpl implements LoanService {
         Optional<Loan> findLoan = loanRepository.findById(id);
         loanValidator.validateLoanNotFound(findLoan);
 
-        Optional<User> findUser = userRepository.findById(request.getUser());
+        Optional<User> findUser = userRepository.findById(request.getUserId());
         userValidator.validateUserNotFound(findUser);
         userValidator.validateUserIsAlreadyDeleted(findUser.get());
 
         Optional<Book> findBook = bookRepository.findById(request.getBook());
         bookValidator.validateBookNotFound(findBook);
         bookValidator.validateBookIsBorrowed(findBook);
-        bookValidator.validateBookIsAlreadyDeleted(findBook.get());
+        bookValidator.validateBookIsAlreadyDeleted(findBook);
 
         Loan loan = findLoan.get();
         loan.setReturnDate(request.getReturnDate());
         loan.setStatus(true);
-
         loanRepository.save(loan);
 
         findBook.get().setIsBorrowed(false);
+        bookRepository.save(findBook.get());
 
-        ResponseLoan result = new ResponseLoan(findLoan.get());
-        return responseData = new ResponseData(200, "Success", result);
+        return new ResponseData(200, "Success", new ResponseLoan(findLoan.get()));
     }
 
     @Override
     public ResponseData delete(Long id) throws Exception {
         Optional<Loan> findLoan = loanRepository.findById(id);
         loanValidator.validateLoanNotFound(findLoan);
+        loanValidator.validateLoanIsAlreadyDeleted(findLoan);
 
-        Loan loan = findLoan.get();
-        loanValidator.validateLoanIsAlreadyDeleted(loan);
-
-        loan.setIsDeleted(true);
-
-        loanRepository.save(loan);
+        findLoan.get().setIsDeleted(true);
+        loanRepository.save(findLoan.get());
 
         findLoan.get().getBook().setIsBorrowed(false);
+        bookRepository.save(findLoan.get().getBook());
 
-        return responseData = new ResponseData(200, "Successfully deleted loan book", null);
+        return new ResponseData(200, "Successfully deleted loan book", null);
     }
 
     @Override
     public ResponseData recovery(Long id) throws Exception {
         Optional<Loan> findLoan = loanRepository.findById(id);
         loanValidator.validateLoanNotFound(findLoan);
+        loanValidator.validateLoanIsAlreadyRecovery(findLoan);
 
-        Loan loan = findLoan.get();
-
-        loan.setIsDeleted(false);
-
-        loanRepository.save(loan);
+        findLoan.get().setIsDeleted(false);
+        loanRepository.save(findLoan.get());
 
         findLoan.get().getBook().setIsBorrowed(false);
+        bookRepository.save(findLoan.get().getBook());
 
-        return responseData = new ResponseData(200, "Successfully recovery loan book", null);
+        return new ResponseData(200, "Successfully recovery loan book", null);
     }
 }

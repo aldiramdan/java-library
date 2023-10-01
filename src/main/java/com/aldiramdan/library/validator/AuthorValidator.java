@@ -23,9 +23,15 @@ public class AuthorValidator {
         }
     }
 
-    public void validateAuthorIsAlreadyDeleted(Author author) throws Exception {
-        if (Objects.nonNull(author.getIsDeleted()) && author.getIsDeleted()) {
+    public void validateAuthorIsAlreadyDeleted(Optional<Author> findAuthor) throws Exception {
+        if (Objects.nonNull(findAuthor.get().getIsDeleted()) && findAuthor.get().getIsDeleted()) {
             throw new NotProcessException("Author is already deleted!");
+        }
+    }
+
+    public void validateAuthorIsAlreadyRecovery(Optional<Author> findAuthor) throws Exception {
+        if (!findAuthor.get().getIsDeleted()) {
+            throw new NotProcessException("Author is already recovery!");
         }
     }
 }

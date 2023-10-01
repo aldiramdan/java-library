@@ -47,20 +47,14 @@ public class AuthServiceImpl implements AuthService {
         Optional<User> findByUsername = userRepository.findByUsername(request.getUsername());
         userValidator.validateUserNotFound(findByUsername);
         userValidator.validateUserNotIsActives(findByUsername);
-        userValidator.validateUserIsAlreadyDeleted(findByUsername.get());
+        userValidator.validateUserIsAlreadyDeleted(findByUsername);
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getUsername(),
-                        request.getPassword()
-                )
-        );
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
         String accessToken = jwtService.generateToken(findByUsername.get());
         String refreshToken = jwtService.generateRefreshToken(findByUsername.get());
 
-        ResponseToken responseToken = new ResponseToken(accessToken, refreshToken);
-        return new ResponseData(200, "Success", responseToken);
+        return new ResponseData(200, "Success", new ResponseToken(accessToken, refreshToken));
     }
 
     @Override
@@ -78,23 +72,18 @@ public class AuthServiceImpl implements AuthService {
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.USER);
-
         userRepository.save(user);
 
         String tokenCode = GenerateRandom.token();
-
         LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(5);
         VerificationToken verificationToken = new VerificationToken();
         verificationToken.setToken(tokenCode);
         verificationToken.setExpiresAt(expiresAt);
         verificationToken.setUser(user);
-
         verificationTokenRepository.save(verificationToken);
 
         senderMailService.confirmRegister(user, tokenCode);
-
-        ResponseUser result = new ResponseUser(user);
-        return new ResponseData(201, "Success", result);
+        return new ResponseData(201, "Success", new ResponseUser(user));
     }
 
     @Override
@@ -104,21 +93,20 @@ public class AuthServiceImpl implements AuthService {
         verificationTokenValidator.validateVerificationTokenAlreadyConfirm(findToken);
         verificationTokenValidator.validateVerificationTokenAlreadyExpire(findToken);
 
-        VerificationToken verificationToken = findToken.get();
-        verificationToken.setConfirmedAt(LocalDateTime.now());
-        verificationTokenRepository.save(verificationToken);
+        findToken.get().setConfirmedAt(LocalDateTime.now());
+        verificationTokenRepository.save(findToken.get());
 
-        User user = findToken.get().getUser();
-        user.setIsActives(true);
-        userRepository.save(user);
+        findToken.get().getUser().setIsActives(true);
+        userRepository.save(findToken.get().getUser());
 
         return new ResponseData(200, "Successfully verification account", null);
     }
 
     @Override
-    public ResponseData recover(RecoveryRequest request) throws Exception {
+    public ResponseData recovery(RecoveryRequest request) throws Exception {
         Optional<User> findByEmail = userRepository.findByEmail(request.getEmail());
         userValidator.validateUserNotFound(findByEmail);
+        userValidator.validateUserIsAlreadyRecovery(findByEmail);
 
         String tokenCode = GenerateRandom.token();
         LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(5);
@@ -126,7 +114,6 @@ public class AuthServiceImpl implements AuthService {
         recoveryToken.setToken(tokenCode);
         recoveryToken.setExpiresAt(expiresAt);
         recoveryToken.setUser(findByEmail.get());
-
         recoveryTokenRepository.save(recoveryToken);
 
         senderMailService.recoveryAccount(findByEmail.get(), tokenCode);
@@ -140,13 +127,11 @@ public class AuthServiceImpl implements AuthService {
         recoveryTokenValidator.validateRecoveryTokenAlreadyConfirm(findToken);
         recoveryTokenValidator.validateRecoveryTokenAlreadyExpire(findToken);
 
-        RecoveryToken recoveryToken = findToken.get();
-        recoveryToken.setConfirmedAt(LocalDateTime.now());
-        recoveryTokenRepository.save(recoveryToken);
+        findToken.get().setConfirmedAt(LocalDateTime.now());
+        recoveryTokenRepository.save(findToken.get());
 
-        User user = findToken.get().getUser();
-        user.setIsDeleted(false);
-        userRepository.save(user);
+        findToken.get().getUser().setIsDeleted(false);
+        userRepository.save(findToken.get().getUser());
 
         return new ResponseData(200, "Successfully recovered account", null);
     }
@@ -156,7 +141,7 @@ public class AuthServiceImpl implements AuthService {
         Optional<User> findByEmail = userRepository.findByEmail(request.getEmail());
         userValidator.validateUserNotFound(findByEmail);
         userValidator.validateUserNotIsActives(findByEmail);
-        userValidator.validateUserIsAlreadyDeleted(findByEmail.get());
+        userValidator.validateUserIsAlreadyDeleted(findByEmail);
 
         String tokenCode = GenerateRandom.code();
         LocalDateTime expiresAt = LocalDateTime.now().plusMinutes(5);
@@ -164,7 +149,6 @@ public class AuthServiceImpl implements AuthService {
         verificationCode.setCode(tokenCode);
         verificationCode.setExpiresAt(expiresAt);
         verificationCode.setUser(findByEmail.get());
-
         verificationCodeRepository.save(verificationCode);
 
         senderMailService.forgotPassword(findByEmail.get(), tokenCode);
@@ -181,9 +165,8 @@ public class AuthServiceImpl implements AuthService {
         verificationCodeValidator.validateVerificationCodeAlreadyConfirm(findCode);
         verificationCodeValidator.validateVerificationCodeAlreadyExpire(findCode);
 
-        VerificationCode verificationCode = findCode.get();
-        verificationCode.setConfirmedAt(LocalDateTime.now());
-        verificationCodeRepository.save(verificationCode);
+        findCode.get().setConfirmedAt(LocalDateTime.now());
+        verificationCodeRepository.save(findCode.get());
 
         return new ResponseData(200, "Successfully verification account", null);
     }
@@ -198,9 +181,8 @@ public class AuthServiceImpl implements AuthService {
         verificationCodeValidator.validateVerificationCodeNotAlreadyConfirm(findCode);
         verificationCodeValidator.validateVerificationCodeAlreadyExpire(findCode);
 
-        User user = findCode.get().getUser();
-        user.setPassword(passwordEncoder.encode(request.getConfirmPassword()));
-        userRepository.save(user);
+        findCode.get().getUser().setPassword(passwordEncoder.encode(request.getConfirmPassword()));
+        userRepository.save(findCode.get().getUser());
 
         return new ResponseData(200, "Successfully reset password", null);
     }
@@ -215,7 +197,6 @@ public class AuthServiceImpl implements AuthService {
         authValidator.validateAuthTokenInvalid(refreshToken, findUser.get());
         String accessToken = jwtService.generateToken(findUser.get());
 
-        ResponseToken responseToken = new ResponseToken(accessToken, refreshToken);
-        return new ResponseData(200, "Success", responseToken);
+        return new ResponseData(200, "Success", new ResponseToken(accessToken, refreshToken));
     }
 }

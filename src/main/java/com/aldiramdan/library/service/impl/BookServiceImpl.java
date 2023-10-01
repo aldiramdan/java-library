@@ -28,8 +28,6 @@ public class BookServiceImpl implements BookService {
     private final PublisherRepository publisherRepository;
     private final PublisherValidator publisherValidator;
 
-    private ResponseData responseData;
-
     @Override
     public ResponseData getAll(Boolean isBorrowed) {
         List<Book> listBook;
@@ -45,7 +43,7 @@ public class BookServiceImpl implements BookService {
             listResult.add(temp);
         }
 
-        return responseData = new ResponseData(200, "Success", listResult);
+        return new ResponseData(200, "Success", listResult);
     }
 
     @Override
@@ -53,15 +51,14 @@ public class BookServiceImpl implements BookService {
         Optional<Book> findBook = bookRepository.findById(id);
         bookValidator.validateBookNotFound(findBook);
 
-        ResponseBook result = new ResponseBook(findBook.get());
-        return responseData = new ResponseData(200, "Success", result);
+        return new ResponseData(200, "Success", new ResponseBook(findBook.get()));
     }
 
     @Override
     public ResponseData searchByName(String column, String name) {
         List<Book> listBook = new ArrayList<>();
         if (name.isEmpty()) {
-            return responseData = new ResponseData(200, "Success", listBook);
+            return new ResponseData(200, "Success", listBook);
         }
 
         switch (column) {
@@ -90,26 +87,26 @@ public class BookServiceImpl implements BookService {
             listResult.add(temp);
         }
 
-        return responseData = new ResponseData(200, "Success", listResult);
+        return new ResponseData(200, "Success", listResult);
     }
 
     @Override
     public ResponseData add(BookRequest request) throws Exception {
         Optional<Author> findAuthor = authorRepository.findById(request.getAuthor());
         authorValidator.validateAuthorNotFound(findAuthor);
-        authorValidator.validateAuthorIsAlreadyDeleted(findAuthor.get());
+        authorValidator.validateAuthorIsAlreadyDeleted(findAuthor);
 
         Optional<Category> findCategory = categoryRepository.findById(request.getCategory());
         categoryValidator.validateCategoryNotFound(findCategory);
-        categoryValidator.validateCategoryIsAlreadyDeleted(findCategory.get());
+        categoryValidator.validateCategoryIsAlreadyDeleted(findCategory);
 
         Optional<Genre> findGenre = genreRepository.findById(request.getGenre());
         genreValidator.validateGenreNotFound(findGenre);
-        genreValidator.validateCategoryIsAlreadyDeleted(findGenre.get());
+        genreValidator.validateCategoryIsAlreadyDeleted(findGenre);
 
         Optional<Publisher> findPublisher = publisherRepository.findById(request.getPublisher());
         publisherValidator.validatePublisherNotFound(findPublisher);
-        publisherValidator.validatePublisherIsAlreadyDeleted(findPublisher.get());
+        publisherValidator.validatePublisherIsAlreadyDeleted(findPublisher);
 
         Book book = new Book();
         book.setTitle(request.getTitle());
@@ -118,11 +115,9 @@ public class BookServiceImpl implements BookService {
         book.setGenre(findGenre.get());
         book.setPublisher(findPublisher.get());
         book.setSynopsis(request.getSynopsis());
-
         bookRepository.save(book);
 
-        ResponseBook result = new ResponseBook(book);
-        return responseData = new ResponseData(201, "Success", result);
+        return new ResponseData(201, "Success", new ResponseBook(book));
     }
 
     @Override
@@ -135,55 +130,47 @@ public class BookServiceImpl implements BookService {
 
         Optional<Category> findCategory = categoryRepository.findById(request.getCategory());
         categoryValidator.validateCategoryNotFound(findCategory);
-        categoryValidator.validateCategoryIsAlreadyDeleted(findCategory.get());
+        categoryValidator.validateCategoryIsAlreadyDeleted(findCategory);
 
         Optional<Genre> findGenre = genreRepository.findById(request.getGenre());
         genreValidator.validateGenreNotFound(findGenre);
-        genreValidator.validateCategoryIsAlreadyDeleted(findGenre.get());
+        genreValidator.validateCategoryIsAlreadyDeleted(findGenre);
 
         Optional<Publisher> findPublisher = publisherRepository.findById(request.getPublisher());
         publisherValidator.validatePublisherNotFound(findPublisher);
 
-        Book book = findBook.get();
-        book.setTitle(request.getTitle());
-        book.setAuthor(findAuthor.get());
-        book.setCategory(findCategory.get());
-        book.setGenre(findGenre.get());
-        book.setPublisher(findPublisher.get());
-        book.setSynopsis(request.getSynopsis());
+        findBook.get().setTitle(request.getTitle());
+        findBook.get().setAuthor(findAuthor.get());
+        findBook.get().setCategory(findCategory.get());
+        findBook.get().setGenre(findGenre.get());
+        findBook.get().setPublisher(findPublisher.get());
+        findBook.get().setSynopsis(request.getSynopsis());
+        bookRepository.save(findBook.get());
 
-        bookRepository.save(book);
-
-        ResponseBook result = new ResponseBook(book);
-        return responseData = new ResponseData(200, "Success", result);
+        return new ResponseData(200, "Success", new ResponseBook(findBook.get()));
     }
 
     @Override
     public ResponseData delete(Long id) throws Exception {
         Optional<Book> findBook = bookRepository.findById(id);
         bookValidator.validateBookNotFound(findBook);
+        bookValidator.validateBookIsAlreadyDeleted(findBook);
 
-        Book book = findBook.get();
-        bookValidator.validateBookIsAlreadyDeleted(book);
+        findBook.get().setIsDeleted(true);
+        bookRepository.save(findBook.get());
 
-        book.setIsDeleted(true);
-
-        bookRepository.save(book);
-
-        return responseData = new ResponseData(200, "Successfully deleted book", null);
+        return new ResponseData(200, "Successfully deleted book", null);
     }
 
     @Override
     public ResponseData recovery(Long id) throws Exception {
         Optional<Book> findBook = bookRepository.findById(id);
         bookValidator.validateBookNotFound(findBook);
+        bookValidator.validateBookIsAlreadyRecovery(findBook);
 
-        Book book = findBook.get();
+        findBook.get().setIsDeleted(false);
+        bookRepository.save(findBook.get());
 
-        book.setIsDeleted(false);
-
-        bookRepository.save(book);
-
-        return responseData = new ResponseData(200, "Successfully recovery book", null);
+        return new ResponseData(200, "Successfully recovery book", null);
     }
 }

@@ -20,13 +20,11 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
     private final AuthorValidator authorValidator;
 
-    private ResponseData responseData;
-
     @Override
     public ResponseData getAll() {
         List<Author> listAuthor = authorRepository.findAll();
 
-        return responseData = new ResponseData(200, "Success", listAuthor);
+        return new ResponseData(200, "Success", listAuthor);
     }
 
     @Override
@@ -34,7 +32,7 @@ public class AuthorServiceImpl implements AuthorService {
         Optional<Author> findAuthor = authorRepository.findById(id);
         authorValidator.validateAuthorNotFound(findAuthor);
 
-        return responseData = new ResponseData(200, "Success", findAuthor);
+        return new ResponseData(200, "Success", findAuthor);
     }
 
     @Override
@@ -44,10 +42,9 @@ public class AuthorServiceImpl implements AuthorService {
 
         Author author = new Author();
         author.setName(request.getName());
-
         authorRepository.save(author);
 
-        return responseData = new ResponseData(201, "Success", author);
+        return new ResponseData(201, "Success", author);
     }
 
     @Override
@@ -55,47 +52,37 @@ public class AuthorServiceImpl implements AuthorService {
         Optional<Author> findAuthor = authorRepository.findById(id);
         authorValidator.validateAuthorNotFound(findAuthor);
 
-        Author author = findAuthor.get();
-        if (author.getName() != request.getName()) {
+        if (findAuthor.get().getName() != request.getName()) {
             Optional<Author> findAuthorByName = authorRepository.findByName(request.getName());
             authorValidator.validateAuthorIsExists(findAuthorByName);
-
-            author.setName(request.getName());
+            findAuthor.get().setName(request.getName());
         }
-        author.setName(author.getName());
+        authorRepository.save(findAuthor.get());
 
-        authorRepository.save(author);
-
-        return responseData = new ResponseData(200, "Success", author);
+        return new ResponseData(200, "Success", findAuthor.get());
     }
 
     @Override
     public ResponseData delete(Long id) throws Exception {
         Optional<Author> findAuthor = authorRepository.findById(id);
         authorValidator.validateAuthorNotFound(findAuthor);
+        authorValidator.validateAuthorIsAlreadyDeleted(findAuthor);
 
-        Author author = findAuthor.get();
-        authorValidator.validateAuthorIsAlreadyDeleted(author);
+        findAuthor.get().setIsDeleted(true);
+        authorRepository.save(findAuthor.get());
 
-        author.setIsDeleted(true);
-
-        authorRepository.save(author);
-
-        return responseData = new ResponseData(200, "Successfully deleted author", null);
+        return new ResponseData(200, "Successfully deleted author", null);
     }
 
     @Override
     public ResponseData recovery(Long id) throws Exception {
         Optional<Author> findAuthor = authorRepository.findById(id);
         authorValidator.validateAuthorNotFound(findAuthor);
+        authorValidator.validateAuthorIsAlreadyRecovery(findAuthor);
 
-        Author author = findAuthor.get();
-        authorValidator.validateAuthorIsAlreadyDeleted(author);
+        findAuthor.get().setIsDeleted(false);
+        authorRepository.save(findAuthor.get());
 
-        author.setIsDeleted(false);
-
-        authorRepository.save(author);
-
-        return responseData = new ResponseData(200, "Successfully recovery author", null);
+        return new ResponseData(200, "Successfully recovery author", null);
     }
 }

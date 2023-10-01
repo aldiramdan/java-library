@@ -18,8 +18,6 @@ import java.util.List;
 public class HistoryServiceImpl implements HistoryService {
     private final LoanRepository loanRepository;
 
-    private ResponseData responseData;
-
     @Override
     public ResponseData getById(Long id) {
         List<Loan> loanList = loanRepository.findUserById(id);
@@ -30,6 +28,6 @@ public class HistoryServiceImpl implements HistoryService {
             listResult.add(temp);
         }
 
-        return responseData = new ResponseData(200, "Success", listResult);
+        return new ResponseData(200, "Success", listResult);
     }
 }

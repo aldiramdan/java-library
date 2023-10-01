@@ -4,17 +4,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class LoanRequest {
-    private Long user;
+    private Long userId;
 
     @NotNull(message = "book is required")
     private Long book;
@@ -29,5 +25,6 @@ public class LoanRequest {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date returnDate;
+
     private Boolean status;
 }

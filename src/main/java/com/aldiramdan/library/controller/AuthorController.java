@@ -15,45 +15,43 @@ import org.springframework.web.bind.annotation.*;
 public class AuthorController {
     private final AuthorService authorService;
 
-    private ResponseData responseData;
-
     @GetMapping
     public ResponseEntity<ResponseData> getAll() {
-        responseData = authorService.getAll();
+        ResponseData responseData = authorService.getAll();
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseData> getById(@PathVariable Long id) throws Exception {
-        responseData = authorService.getById(id);
+        ResponseData responseData = authorService.getById(id);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ResponseData> create(@Valid @RequestBody AuthorRequest request) throws Exception {
-        responseData = authorService.add(request);
+        ResponseData responseData = authorService.add(request);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ResponseData> update(@PathVariable Long id, @Valid @RequestBody AuthorRequest request) throws Exception {
-        responseData = authorService.update(id, request);
+        ResponseData responseData = authorService.update(id, request);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ResponseData> delete(@PathVariable Long id) throws Exception {
-        responseData = authorService.delete(id);
+        ResponseData responseData = authorService.delete(id);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @PostMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<ResponseData> recovery(@PathVariable Long id) throws Exception {
-        responseData = authorService.recovery(id);
+        ResponseData responseData = authorService.recovery(id);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 }

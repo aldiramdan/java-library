@@ -74,8 +74,6 @@ public class UserServiceImpl implements UserService {
         }
 
         findUser.get().setName(request.getName());
-        findUser.get().setUsername(findUser.get().getUsername());
-        findUser.get().setEmail(findUser.get().getEmail());
         userRepository.save(findUser.get());
 
         return new ResponseData(200, "Success", new ResponseUser(findUser.get()));
@@ -100,7 +98,7 @@ public class UserServiceImpl implements UserService {
     public ResponseData delete(Long id) throws Exception {
         Optional<User> findUser = userRepository.findById(id);
         userValidator.validateUserNotFound(findUser);
-        userValidator.validateUserIsAlreadyDeleted(findUser.get());
+        userValidator.validateUserIsAlreadyDeleted(findUser);
 
         findUser.get().setIsDeleted(true);
         userRepository.save(findUser.get());

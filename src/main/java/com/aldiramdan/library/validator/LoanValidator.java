@@ -16,9 +16,15 @@ public class LoanValidator {
         }
     }
 
-    public void validateLoanIsAlreadyDeleted(Loan loan) throws Exception {
-        if (Objects.nonNull(loan.getIsDeleted()) && loan.getIsDeleted()) {
+    public void validateLoanIsAlreadyDeleted(Optional<Loan> findLoan) throws Exception {
+        if (Objects.nonNull(findLoan.get().getIsDeleted()) && findLoan.get().getIsDeleted()) {
             throw new NotProcessException("Book Loan is already deleted!");
+        }
+    }
+
+    public void validateLoanIsAlreadyRecovery(Optional<Loan> findLoan) throws Exception {
+        if (!findLoan.get().getIsDeleted()) {
+            throw new NotProcessException("Book Loan is already recovery!");
         }
     }
 }

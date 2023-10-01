@@ -23,9 +23,15 @@ public class CategoryValidator {
         }
     }
 
-    public void validateCategoryIsAlreadyDeleted(Category category) throws Exception {
-        if (Objects.nonNull(category.getIsDeleted()) && category.getIsDeleted()) {
+    public void validateCategoryIsAlreadyDeleted(Optional<Category> findCategory) throws Exception {
+        if (Objects.nonNull(findCategory.get().getIsDeleted()) && findCategory.get().getIsDeleted()) {
             throw new NotProcessException("Category is already deleted!");
+        }
+    }
+
+    public void validateCategoryIsAlreadyRecovery(Optional<Category> findCategory) throws Exception {
+        if (!findCategory.get().getIsDeleted()) {
+            throw new NotProcessException("Category is already recovery!");
         }
     }
 }

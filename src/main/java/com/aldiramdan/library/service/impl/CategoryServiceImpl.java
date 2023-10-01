@@ -20,13 +20,11 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryValidator categoryValidator;
 
-    private ResponseData responseData;
-
     @Override
     public ResponseData getAll() {
         List<Category> listCategory = categoryRepository.findAll();
 
-        return responseData = new ResponseData(200, "Success", listCategory);
+        return new ResponseData(200, "Success", listCategory);
     }
 
     @Override
@@ -34,7 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
         Optional<Category> findCategory = categoryRepository.findById(id);
         categoryValidator.validateCategoryNotFound(findCategory);
 
-        return responseData = new ResponseData(200, "Success", findCategory);
+        return new ResponseData(200, "Success", findCategory);
     }
 
     @Override
@@ -44,10 +42,9 @@ public class CategoryServiceImpl implements CategoryService {
 
         Category category = new Category();
         category.setName(request.getName());
-
         categoryRepository.save(category);
 
-        return responseData = new ResponseData(201, "Success", category);
+        return new ResponseData(201, "Success", category);
     }
 
     @Override
@@ -55,47 +52,37 @@ public class CategoryServiceImpl implements CategoryService {
         Optional<Category> findCategory = categoryRepository.findById(id);
         categoryValidator.validateCategoryNotFound(findCategory);
 
-        Category category = findCategory.get();
-        if (category.getName() != request.getName()) {
+        if (findCategory.get().getName() != request.getName()) {
             Optional<Category> findCategoryByName = categoryRepository.findByName(request.getName());
             categoryValidator.validateCategoryIsExists(findCategoryByName);
-
-            category.setName(request.getName());
+            findCategory.get().setName(request.getName());
         }
-        category.setName(category.getName());
+        categoryRepository.save(findCategory.get());
 
-        categoryRepository.save(category);
-
-        return responseData = new ResponseData(200, "Success", category);
+        return new ResponseData(200, "Success", findCategory.get());
     }
 
     @Override
     public ResponseData delete(Long id) throws Exception {
         Optional<Category> findCategory = categoryRepository.findById(id);
         categoryValidator.validateCategoryNotFound(findCategory);
+        categoryValidator.validateCategoryIsAlreadyDeleted(findCategory);
 
-        Category category = findCategory.get();
-        categoryValidator.validateCategoryIsAlreadyDeleted(category);
+        findCategory.get().setIsDeleted(true);
+        categoryRepository.save(findCategory.get());
 
-        category.setIsDeleted(true);
-
-        categoryRepository.save(category);
-
-        return responseData = new ResponseData(200, "Success", null);
+        return new ResponseData(200, "Successfully deleted category", null);
     }
 
     @Override
     public ResponseData recovery(Long id) throws Exception {
         Optional<Category> findCategory = categoryRepository.findById(id);
         categoryValidator.validateCategoryNotFound(findCategory);
+        categoryValidator.validateCategoryIsAlreadyRecovery(findCategory);
 
-        Category category = findCategory.get();
-        categoryValidator.validateCategoryIsAlreadyDeleted(category);
+        findCategory.get().setIsDeleted(false);
+        categoryRepository.save(findCategory.get());
 
-        category.setIsDeleted(false);
-
-        categoryRepository.save(category);
-
-        return responseData = new ResponseData(200, "Successfully recovery category", null);
+        return new ResponseData(200, "Successfully recovery category", null);
     }
 }
