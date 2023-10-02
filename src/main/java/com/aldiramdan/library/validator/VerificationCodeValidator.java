@@ -1,6 +1,7 @@
 package com.aldiramdan.library.validator;
 
 import com.aldiramdan.library.exception.custom.NotFoundException;
+import com.aldiramdan.library.exception.custom.NotProcessException;
 import com.aldiramdan.library.model.entity.VerificationCode;
 import org.springframework.stereotype.Service;
 
@@ -18,19 +19,19 @@ public class VerificationCodeValidator {
 
     public void validateVerificationCodeAlreadyConfirm(Optional<VerificationCode> findToken) throws Exception {
         if (Objects.nonNull(findToken.get().getConfirmedAt())) {
-            throw new IllegalStateException("Account is already verification!");
+            throw new NotProcessException("Account is already verification!");
         }
     }
 
     public void validateVerificationCodeNotAlreadyConfirm(Optional<VerificationCode> findToken) throws Exception {
         if (Objects.isNull(findToken.get().getConfirmedAt())) {
-            throw new IllegalStateException("Account is not already verification!, please verification");
+            throw new NotProcessException("Account is not already verification!, please verification");
         }
     }
 
     public void validateVerificationCodeAlreadyExpire(Optional<VerificationCode> findToken) throws Exception {
         if (findToken.get().getExpiresAt().isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("Code is already expired!");
+            throw new NotProcessException("Code is already expired!");
         }
     }
 }
