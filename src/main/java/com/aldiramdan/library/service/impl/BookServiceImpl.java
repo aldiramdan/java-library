@@ -61,25 +61,14 @@ public class BookServiceImpl implements BookService {
             return new ResponseData(200, "Success", listBook);
         }
 
-        switch (column) {
-            case "title":
-                listBook = bookRepository.findByTitleContaining(name);
-                break;
-            case "author":
-                listBook = bookRepository.findAuthorByName(name);
-                break;
-            case "category":
-                listBook = bookRepository.findCategoryByName(name);
-                break;
-            case "genre":
-                listBook = bookRepository.findGenreByName(name);
-                break;
-            case "publisher":
-                listBook = bookRepository.findPublisherByName(name);
-                break;
-            default:
-                listBook = Collections.emptyList();
-        }
+        listBook = switch (column) {
+            case "title" -> bookRepository.findByTitleContaining(name);
+            case "author" -> bookRepository.findAuthorByName(name);
+            case "category" -> bookRepository.findCategoryByName(name);
+            case "genre" -> bookRepository.findGenreByName(name);
+            case "publisher" -> bookRepository.findPublisherByName(name);
+            default -> Collections.emptyList();
+        };
 
         List<ResponseBook> listResult = new ArrayList<>();
         for (Book b : listBook) {

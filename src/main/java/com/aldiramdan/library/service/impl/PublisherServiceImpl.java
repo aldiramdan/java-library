@@ -52,7 +52,7 @@ public class PublisherServiceImpl implements PublisherService {
         Optional<Publisher> findPublisher = publisherRepository.findById(id);
         publisherValidator.validatePublisherNotFound(findPublisher);
 
-        if (findPublisher.get().getName() != request.getName()) {
+        if (!findPublisher.get().getName().equals(request.getName())) {
             Optional<Publisher> findPublisherByName = publisherRepository.findByName(request.getName());
             publisherValidator.validatePublisherIsExists(findPublisherByName);
             findPublisher.get().setName(request.getName());

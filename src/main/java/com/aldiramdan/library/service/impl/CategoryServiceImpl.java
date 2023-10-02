@@ -52,7 +52,7 @@ public class CategoryServiceImpl implements CategoryService {
         Optional<Category> findCategory = categoryRepository.findById(id);
         categoryValidator.validateCategoryNotFound(findCategory);
 
-        if (findCategory.get().getName() != request.getName()) {
+        if (!findCategory.get().getName().equals(request.getName())) {
             Optional<Category> findCategoryByName = categoryRepository.findByName(request.getName());
             categoryValidator.validateCategoryIsExists(findCategoryByName);
             findCategory.get().setName(request.getName());

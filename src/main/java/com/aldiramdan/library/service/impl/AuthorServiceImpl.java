@@ -52,7 +52,7 @@ public class AuthorServiceImpl implements AuthorService {
         Optional<Author> findAuthor = authorRepository.findById(id);
         authorValidator.validateAuthorNotFound(findAuthor);
 
-        if (findAuthor.get().getName() != request.getName()) {
+        if (!findAuthor.get().getName().equals(request.getName())) {
             Optional<Author> findAuthorByName = authorRepository.findByName(request.getName());
             authorValidator.validateAuthorIsExists(findAuthorByName);
             findAuthor.get().setName(request.getName());

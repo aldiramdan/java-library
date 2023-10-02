@@ -52,7 +52,7 @@ public class GenreServiceImpl implements GenreService {
         Optional<Genre> findGenre = genreRepository.findById(id);
         genreValidator.validateGenreNotFound(findGenre);
 
-        if (findGenre.get().getName() != request.getName()) {
+        if (!findGenre.get().getName().equals(request.getName())) {
             Optional<Genre> findGenreByName = genreRepository.findByName(request.getName());
             genreValidator.validateGenreIsExists(findGenreByName);
             findGenre.get().setName(request.getName());
