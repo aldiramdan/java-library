@@ -57,7 +57,7 @@ public class LoanServiceImpl implements LoanService {
     public ResponseData add(LoanRequest request) throws Exception {
         Optional<User> findUser = userRepository.findById(request.getUserId());
         userValidator.validateUserNotFound(findUser);
-        userValidator.validateUserIsAlreadyDeleted(findUser.get());
+        userValidator.validateUserIsAlreadyDeleted(findUser);
 
         Optional<Book> findBook = bookRepository.findById(request.getBook());
         bookValidator.validateBookNotFound(findBook);
@@ -84,7 +84,7 @@ public class LoanServiceImpl implements LoanService {
 
         Optional<User> findUser = userRepository.findById(request.getUserId());
         userValidator.validateUserNotFound(findUser);
-        userValidator.validateUserIsAlreadyDeleted(findUser.get());
+        userValidator.validateUserIsAlreadyDeleted(findUser);
 
         Optional<Book> findBook = bookRepository.findById(request.getBook());
         bookValidator.validateBookNotFound(findBook);
@@ -107,7 +107,7 @@ public class LoanServiceImpl implements LoanService {
 
         Optional<User> findUser = userRepository.findById(request.getUserId());
         userValidator.validateUserNotFound(findUser);
-        userValidator.validateUserIsAlreadyDeleted(findUser.get());
+        userValidator.validateUserIsAlreadyDeleted(findUser);
 
         Optional<Book> findBook = bookRepository.findById(request.getBook());
         bookValidator.validateBookNotFound(findBook);
