@@ -19,7 +19,7 @@ public class SenderMailServiceImpl implements SenderMailService {
     private final TemplateEngine templateEngine;
 
     @Value("${application.frontend.origin-url}")
-    private final String frontendOriginUrl;
+    private String frontendOriginUrl;
 
     @Async
     @Override
