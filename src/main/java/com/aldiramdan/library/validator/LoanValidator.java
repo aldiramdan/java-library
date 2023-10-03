@@ -24,7 +24,7 @@ public class LoanValidator {
 
     public void validateLoanIsAlreadyRecovery(Optional<Loan> findLoan) throws Exception {
         if (!findLoan.get().getIsDeleted()) {
-            throw new NotProcessException("Book Loan is already recovery!");
+            throw new NotProcessException("Book Loan is already recovered!");
         }
     }
 }

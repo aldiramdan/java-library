@@ -19,7 +19,7 @@ public class PublisherValidator {
 
     public void validatePublisherIsExists(Optional<Publisher> findPublisher) throws Exception {
         if (findPublisher.isPresent()) {
-            throw new ConflictException("Publisher is found!");
+            throw new ConflictException("Publisher has been exists!");
         }
     }
 
@@ -31,7 +31,7 @@ public class PublisherValidator {
 
     public void validatePublisherIsAlreadyRecovery(Optional<Publisher> findPublisher) throws Exception {
         if (!findPublisher.get().getIsDeleted()) {
-            throw new NotProcessException("Publisher is already recovery!");
+            throw new NotProcessException("Publisher is already recovered!");
         }
     }
 }

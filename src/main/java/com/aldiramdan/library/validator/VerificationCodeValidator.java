@@ -25,7 +25,7 @@ public class VerificationCodeValidator {
 
     public void validateVerificationCodeNotAlreadyConfirm(Optional<VerificationCode> findToken) throws Exception {
         if (Objects.isNull(findToken.get().getConfirmedAt())) {
-            throw new NotProcessException("Account is not already verification!, please verification");
+            throw new NotProcessException("Account is not already verification!, please verification!");
         }
     }
 

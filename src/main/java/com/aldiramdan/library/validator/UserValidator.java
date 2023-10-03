@@ -18,13 +18,13 @@ public class UserValidator {
 
     public void validateUserUsernameIsExists(Optional<User> findByUsername) throws Exception {
         if (findByUsername.isPresent()) {
-            throw new ConflictException("Username has been regitered!");
+            throw new ConflictException("Username has been registered!");
         }
     }
 
     public void validateUserEmailIsExists(Optional<User> findByEmail) throws Exception {
         if (findByEmail.isPresent()) {
-            throw new ConflictException("Email has been regitered!");
+            throw new ConflictException("Email has been registered!");
         }
     }
 
@@ -85,7 +85,7 @@ public class UserValidator {
 
     public void validateUserIsAlreadyRecovery(Optional<User> findUser) throws Exception {
         if (!findUser.get().getIsDeleted()) {
-            throw new NotProcessException("User is already recvoery!");
+            throw new NotProcessException("User is already recovered!");
         }
     }
 }

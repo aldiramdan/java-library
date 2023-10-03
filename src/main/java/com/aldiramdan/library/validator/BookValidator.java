@@ -30,7 +30,7 @@ public class BookValidator {
 
     public void validateBookIsAlreadyRecovery(Optional<Book> findBook) throws Exception {
         if (!findBook.get().getIsDeleted()) {
-            throw new NotProcessException("Book is already recovery!");
+            throw new NotProcessException("Book is already recovered!");
         }
     }
 }

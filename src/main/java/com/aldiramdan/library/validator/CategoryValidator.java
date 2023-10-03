@@ -19,7 +19,7 @@ public class CategoryValidator {
 
     public void validateCategoryIsExists(Optional<Category> findCategory) throws Exception {
         if (findCategory.isPresent()) {
-            throw new ConflictException("Category is found!");
+            throw new ConflictException("Category has been exists!");
         }
     }
 
@@ -31,7 +31,7 @@ public class CategoryValidator {
 
     public void validateCategoryIsAlreadyRecovery(Optional<Category> findCategory) throws Exception {
         if (!findCategory.get().getIsDeleted()) {
-            throw new NotProcessException("Category is already recovery!");
+            throw new NotProcessException("Category is already recovered!");
         }
     }
 }

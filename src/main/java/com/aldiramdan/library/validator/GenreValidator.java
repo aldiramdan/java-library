@@ -19,7 +19,7 @@ public class GenreValidator {
 
     public void validateGenreIsExists(Optional<Genre> findGenre) throws Exception {
         if (findGenre.isPresent()) {
-            throw new ConflictException("Genre is found!");
+            throw new ConflictException("Genre has been exists!");
         }
     }
 
@@ -31,7 +31,7 @@ public class GenreValidator {
 
     public void validateCategoryIsAlreadyRecovery(Optional<Genre> findGenre) throws Exception {
         if (!findGenre.get().getIsDeleted()) {
-            throw new NotProcessException("Genre is already recovery!");
+            throw new NotProcessException("Genre is already recovered!");
         }
     }
 }

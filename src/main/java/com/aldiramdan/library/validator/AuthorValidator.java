@@ -19,7 +19,7 @@ public class AuthorValidator {
 
     public void validateAuthorIsExists(Optional<Author> findAuthor) throws Exception {
         if (findAuthor.isPresent()) {
-            throw new ConflictException("Author is found!");
+            throw new ConflictException("Author has been exists!");
         }
     }
 
@@ -31,7 +31,7 @@ public class AuthorValidator {
 
     public void validateAuthorIsAlreadyRecovery(Optional<Author> findAuthor) throws Exception {
         if (!findAuthor.get().getIsDeleted()) {
-            throw new NotProcessException("Author is already recovery!");
+            throw new NotProcessException("Author is already recovered!");
         }
     }
 }

@@ -16,13 +16,13 @@ public class AuthValidator {
 
     public void validateAuthHeaderNotFound(String authHeader) throws Exception {
         if (Objects.isNull(authHeader) || !authHeader.startsWith("Bearer ")) {
-            throw new NotFoundException("Auth Header not found");
+            throw new NotFoundException("AuthHeader Token not found!");
         }
     }
 
     public void validateAuthTokenInvalid(String refreshToken, UserDetails user) throws Exception {
         if (!jwtService.isTokenValid(refreshToken, user)) {
-            throw new BadRequestException("JWT Token invalid");
+            throw new BadRequestException("JWT Token invalid!");
         }
     }
 }
