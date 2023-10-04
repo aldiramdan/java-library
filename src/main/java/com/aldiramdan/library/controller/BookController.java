@@ -22,7 +22,7 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseData> getById(@PathVariable Long id) throws Exception {
+    public ResponseEntity<ResponseData> getById(@PathVariable Long id) {
         ResponseData responseData = bookService.getById(id);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
@@ -35,28 +35,28 @@ public class BookController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<ResponseData> create(@Valid @RequestBody BookRequest request) throws Exception {
+    public ResponseEntity<ResponseData> create(@Valid @RequestBody BookRequest request) {
         ResponseData responseData = bookService.add(request);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<ResponseData> update(@PathVariable Long id, @Valid @RequestBody BookRequest request) throws Exception {
+    public ResponseEntity<ResponseData> update(@PathVariable Long id, @Valid @RequestBody BookRequest request) {
         ResponseData responseData = bookService.update(id, request);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<ResponseData> delete(@PathVariable Long id) throws Exception {
+    public ResponseEntity<ResponseData> delete(@PathVariable Long id) {
         ResponseData responseData = bookService.delete(id);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @PostMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<ResponseData> recovery(@PathVariable Long id) throws Exception {
+    public ResponseEntity<ResponseData> recovery(@PathVariable Long id) {
         ResponseData responseData = bookService.recovery(id);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }

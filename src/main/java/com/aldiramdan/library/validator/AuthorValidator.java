@@ -11,25 +11,25 @@ import java.util.Optional;
 
 @Service
 public class AuthorValidator {
-    public void validateAuthorNotFound(Optional<Author> findAuthor) throws Exception {
+    public void validateAuthorNotFound(Optional<Author> findAuthor) {
         if (findAuthor.isEmpty()) {
             throw new NotFoundException("Author is not found!");
         }
     }
 
-    public void validateAuthorIsExists(Optional<Author> findAuthor) throws Exception {
+    public void validateAuthorIsExists(Optional<Author> findAuthor) {
         if (findAuthor.isPresent()) {
             throw new ConflictException("Author has been exists!");
         }
     }
 
-    public void validateAuthorIsAlreadyDeleted(Optional<Author> findAuthor) throws Exception {
+    public void validateAuthorIsAlreadyDeleted(Optional<Author> findAuthor) {
         if (Objects.nonNull(findAuthor.get().getIsDeleted()) && findAuthor.get().getIsDeleted()) {
             throw new NotProcessException("Author is already deleted!");
         }
     }
 
-    public void validateAuthorIsAlreadyRecovery(Optional<Author> findAuthor) throws Exception {
+    public void validateAuthorIsAlreadyRecovery(Optional<Author> findAuthor) {
         if (!findAuthor.get().getIsDeleted()) {
             throw new NotProcessException("Author is already recovered!");
         }

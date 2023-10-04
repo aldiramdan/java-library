@@ -27,35 +27,35 @@ public class UserController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<ResponseData> getById(@PathVariable Long id) throws Exception {
+    public ResponseEntity<ResponseData> getById(@PathVariable Long id) {
         ResponseData responseData = userService.getById(id);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @GetMapping("/me")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-    public ResponseEntity<ResponseData> profile(@AuthenticationPrincipal User user) throws Exception {
+    public ResponseEntity<ResponseData> profile(@AuthenticationPrincipal User user) {
         ResponseData responseData = userService.getByUsername(user.getId());
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @PutMapping("/update")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-    public ResponseEntity<ResponseData> update(@AuthenticationPrincipal User user, @Valid @RequestBody UserRequest request) throws Exception {
+    public ResponseEntity<ResponseData> update(@AuthenticationPrincipal User user, @Valid @RequestBody UserRequest request) {
         ResponseData responseData = userService.update(user.getId(), request);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @PatchMapping("/change-password")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-    public ResponseEntity<ResponseData> changePassword(@AuthenticationPrincipal User user, @Valid @RequestBody ChangePasswordRequest request) throws Exception {
+    public ResponseEntity<ResponseData> changePassword(@AuthenticationPrincipal User user, @Valid @RequestBody ChangePasswordRequest request) {
         ResponseData responseData = userService.changePassword(user.getId(), request);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @DeleteMapping("/delete")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-    public ResponseEntity<ResponseData> delete(@AuthenticationPrincipal User user) throws Exception {
+    public ResponseEntity<ResponseData> delete(@AuthenticationPrincipal User user) {
         ResponseData responseData = userService.delete(user.getId());
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }

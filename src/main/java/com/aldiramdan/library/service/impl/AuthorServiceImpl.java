@@ -28,7 +28,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public ResponseData getById(Long id) throws Exception {
+    public ResponseData getById(Long id) {
         Optional<Author> findAuthor = authorRepository.findById(id);
         authorValidator.validateAuthorNotFound(findAuthor);
 
@@ -36,7 +36,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public ResponseData add(AuthorRequest request) throws Exception {
+    public ResponseData add(AuthorRequest request) {
         Optional<Author> findAuthorByName = authorRepository.findByName(request.getName());
         authorValidator.validateAuthorIsExists(findAuthorByName);
 
@@ -48,7 +48,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public ResponseData update(Long id, AuthorRequest request) throws Exception {
+    public ResponseData update(Long id, AuthorRequest request) {
         Optional<Author> findAuthor = authorRepository.findById(id);
         authorValidator.validateAuthorNotFound(findAuthor);
 
@@ -63,7 +63,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public ResponseData delete(Long id) throws Exception {
+    public ResponseData delete(Long id) {
         Optional<Author> findAuthor = authorRepository.findById(id);
         authorValidator.validateAuthorNotFound(findAuthor);
         authorValidator.validateAuthorIsAlreadyDeleted(findAuthor);
@@ -75,7 +75,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public ResponseData recovery(Long id) throws Exception {
+    public ResponseData recovery(Long id) {
         Optional<Author> findAuthor = authorRepository.findById(id);
         authorValidator.validateAuthorNotFound(findAuthor);
         authorValidator.validateAuthorIsAlreadyRecovery(findAuthor);

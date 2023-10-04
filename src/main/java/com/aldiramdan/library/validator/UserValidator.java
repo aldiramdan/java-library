@@ -16,43 +16,43 @@ import java.util.*;
 public class UserValidator {
     private final PasswordEncoder passwordEncoder;
 
-    public void validateUserUsernameIsExists(Optional<User> findByUsername) throws Exception {
+    public void validateUserUsernameIsExists(Optional<User> findByUsername) {
         if (findByUsername.isPresent()) {
             throw new ConflictException("Username has been registered!");
         }
     }
 
-    public void validateUserEmailIsExists(Optional<User> findByEmail) throws Exception {
+    public void validateUserEmailIsExists(Optional<User> findByEmail) {
         if (findByEmail.isPresent()) {
             throw new ConflictException("Email has been registered!");
         }
     }
 
-    public void validateUserNotFound(Optional<User> findUser) throws Exception {
+    public void validateUserNotFound(Optional<User> findUser) {
         if (findUser.isEmpty()) {
             throw new NotFoundException("User not found!, please register!");
         }
     }
 
-    public void validateUserNotIsActives(Optional<User> findUser) throws Exception {
+    public void validateUserNotIsActives(Optional<User> findUser) {
         if (Objects.isNull(findUser.get().getIsActives()) || !findUser.get().getIsActives()) {
-            throw new IllegalAccessException("User not verification account!, please confirm account!");
+            throw new NotProcessException("User not verification account!, please confirm account!");
         }
     }
 
-    public void validateUserInvalidOldPassword(String oldPassword, String dbPassword) throws Exception {
+    public void validateUserInvalidOldPassword(String oldPassword, String dbPassword) {
         if (!passwordEncoder.matches(oldPassword, dbPassword)) {
             throw new BadRequestException("Old password is incorrect!");
         }
     }
 
-    public void validateUserPasswordNotMatch(String newPassword, String confirmPassword) throws Exception {
+    public void validateUserPasswordNotMatch(String newPassword, String confirmPassword) {
         if (!newPassword.equals(confirmPassword)) {
             throw new BadRequestException("New password and Confirm password do not match!");
         }
     }
 
-    public void validateUserCheckPasswordStrength(String password) throws Exception {
+    public void validateUserCheckPasswordStrength(String password) {
         boolean hasLower = false, hasUpper = false,
                 hasDigit = false, specialChar = false;
 
@@ -77,13 +77,13 @@ public class UserValidator {
         }
     }
 
-    public void validateUserIsAlreadyDeleted(Optional<User> findUser) throws Exception {
+    public void validateUserIsAlreadyDeleted(Optional<User> findUser) {
         if (Objects.nonNull(findUser.get().getIsDeleted()) && findUser.get().getIsDeleted()) {
             throw new NotProcessException("User is already deleted!");
         }
     }
 
-    public void validateUserIsAlreadyRecovery(Optional<User> findUser) throws Exception {
+    public void validateUserIsAlreadyRecovery(Optional<User> findUser) {
         if (!findUser.get().getIsDeleted()) {
             throw new NotProcessException("User is already recovered!");
         }

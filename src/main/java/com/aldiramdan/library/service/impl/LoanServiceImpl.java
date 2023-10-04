@@ -46,7 +46,7 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public ResponseData getById(Long id) throws Exception {
+    public ResponseData getById(Long id) {
         Optional<Loan> findLoan = loanRepository.findById(id);
         loanValidator.validateLoanNotFound(findLoan);
 
@@ -54,7 +54,7 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public ResponseData add(LoanRequest request) throws Exception {
+    public ResponseData add(LoanRequest request) {
         Optional<User> findUser = userRepository.findById(request.getUserId());
         userValidator.validateUserNotFound(findUser);
         userValidator.validateUserIsAlreadyDeleted(findUser);
@@ -78,7 +78,7 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public ResponseData update(Long id, LoanRequest request) throws Exception {
+    public ResponseData update(Long id, LoanRequest request) {
         Optional<Loan> findLoan = loanRepository.findById(id);
         loanValidator.validateLoanNotFound(findLoan);
 
@@ -101,7 +101,7 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public ResponseData updateStatus(Long id, LoanRequest request) throws Exception {
+    public ResponseData updateStatus(Long id, LoanRequest request) {
         Optional<Loan> findLoan = loanRepository.findById(id);
         loanValidator.validateLoanNotFound(findLoan);
 
@@ -126,7 +126,7 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public ResponseData delete(Long id) throws Exception {
+    public ResponseData delete(Long id) {
         Optional<Loan> findLoan = loanRepository.findById(id);
         loanValidator.validateLoanNotFound(findLoan);
         loanValidator.validateLoanIsAlreadyDeleted(findLoan);
@@ -141,7 +141,7 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
-    public ResponseData recovery(Long id) throws Exception {
+    public ResponseData recovery(Long id) {
         Optional<Loan> findLoan = loanRepository.findById(id);
         loanValidator.validateLoanNotFound(findLoan);
         loanValidator.validateLoanIsAlreadyRecovery(findLoan);

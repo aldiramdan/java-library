@@ -4,13 +4,13 @@ import com.aldiramdan.library.model.dto.request.*;
 import com.aldiramdan.library.model.dto.response.ResponseData;
 
 public interface AuthService {
-    ResponseData login(LoginRequest request) throws Exception;
+    ResponseData login(LoginRequest request);
     ResponseData register(RegisterRequest request) throws Exception;
-    ResponseData registerConfirm(String tokenCode) throws Exception;
+    ResponseData registerConfirm(String tokenCode);
     ResponseData recovery(RecoveryRequest request) throws Exception;
-    ResponseData recoveryConfirm(String tokenCode) throws Exception;
+    ResponseData recoveryConfirm(String tokenCode);
     ResponseData recoveryForgotPassword(RecoveryRequest request) throws Exception;
-    ResponseData recoveryForgotPasswordConfirm(VerificationCodeRequest request) throws Exception;
-    ResponseData recoveryResetPassword(ResetPasswordRequest request) throws Exception;
-    ResponseData refreshToken(String authHeader) throws Exception;
+    ResponseData recoveryForgotPasswordConfirm(VerificationCodeRequest request);
+    ResponseData recoveryResetPassword(ResetPasswordRequest request);
+    ResponseData refreshToken(String authHeader);
 }

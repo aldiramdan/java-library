@@ -25,14 +25,14 @@ public class LoanController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-    public ResponseEntity<ResponseData> getById(@PathVariable Long id) throws Exception {
+    public ResponseEntity<ResponseData> getById(@PathVariable Long id) {
         ResponseData responseData = loanService.getById(id);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-    public ResponseEntity<ResponseData> create(@AuthenticationPrincipal User user, @Valid @RequestBody LoanRequest request) throws Exception {
+    public ResponseEntity<ResponseData> create(@AuthenticationPrincipal User user, @Valid @RequestBody LoanRequest request) {
         request.setUserId(user.getId());
         ResponseData responseData = loanService.add(request);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
@@ -40,7 +40,7 @@ public class LoanController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-    public ResponseEntity<ResponseData> update(@PathVariable Long id, @AuthenticationPrincipal User user, @Valid @RequestBody LoanRequest request) throws Exception {
+    public ResponseEntity<ResponseData> update(@PathVariable Long id, @AuthenticationPrincipal User user, @Valid @RequestBody LoanRequest request) {
         request.setUserId(user.getId());
         ResponseData responseData = loanService.update(id, request);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
@@ -48,21 +48,21 @@ public class LoanController {
 
     @PatchMapping("/status/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<ResponseData> updateStatus(@PathVariable Long id, @Valid @RequestBody LoanRequest request) throws Exception {
+    public ResponseEntity<ResponseData> updateStatus(@PathVariable Long id, @Valid @RequestBody LoanRequest request) {
         ResponseData responseData = loanService.updateStatus(id, request);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-    public ResponseEntity<ResponseData> delete(@PathVariable Long id) throws Exception {
+    public ResponseEntity<ResponseData> delete(@PathVariable Long id) {
         ResponseData responseData = loanService.delete(id);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @PostMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-    public ResponseEntity<ResponseData> recovery(@PathVariable Long id) throws Exception {
+    public ResponseEntity<ResponseData> recovery(@PathVariable Long id) {
         ResponseData responseData = loanService.recovery(id);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }

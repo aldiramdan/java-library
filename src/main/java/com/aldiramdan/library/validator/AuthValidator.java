@@ -14,13 +14,13 @@ import java.util.Objects;
 public class AuthValidator {
     private final JwtService jwtService;
 
-    public void validateAuthHeaderNotFound(String authHeader) throws Exception {
+    public void validateAuthHeaderNotFound(String authHeader) {
         if (Objects.isNull(authHeader) || !authHeader.startsWith("Bearer ")) {
             throw new NotFoundException("AuthHeader Token not found!");
         }
     }
 
-    public void validateAuthTokenInvalid(String refreshToken, UserDetails user) throws Exception {
+    public void validateAuthTokenInvalid(String refreshToken, UserDetails user) {
         if (!jwtService.isTokenValid(refreshToken, user)) {
             throw new BadRequestException("JWT Token invalid!");
         }

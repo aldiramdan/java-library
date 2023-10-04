@@ -11,25 +11,25 @@ import java.util.Optional;
 
 @Service
 public class CategoryValidator {
-    public void validateCategoryNotFound(Optional<Category> findCategory) throws Exception {
+    public void validateCategoryNotFound(Optional<Category> findCategory) {
         if (findCategory.isEmpty()) {
             throw new NotFoundException("Category is not found!");
         }
     }
 
-    public void validateCategoryIsExists(Optional<Category> findCategory) throws Exception {
+    public void validateCategoryIsExists(Optional<Category> findCategory) {
         if (findCategory.isPresent()) {
             throw new ConflictException("Category has been exists!");
         }
     }
 
-    public void validateCategoryIsAlreadyDeleted(Optional<Category> findCategory) throws Exception {
+    public void validateCategoryIsAlreadyDeleted(Optional<Category> findCategory) {
         if (Objects.nonNull(findCategory.get().getIsDeleted()) && findCategory.get().getIsDeleted()) {
             throw new NotProcessException("Category is already deleted!");
         }
     }
 
-    public void validateCategoryIsAlreadyRecovery(Optional<Category> findCategory) throws Exception {
+    public void validateCategoryIsAlreadyRecovery(Optional<Category> findCategory) {
         if (!findCategory.get().getIsDeleted()) {
             throw new NotProcessException("Category is already recovered!");
         }

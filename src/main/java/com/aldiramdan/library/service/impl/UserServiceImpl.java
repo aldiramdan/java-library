@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseData getById(Long id) throws Exception {
+    public ResponseData getById(Long id) {
         Optional<User> findUser = userRepository.findById(id);
         userValidator.validateUserNotFound(findUser);
 
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseData getByUsername(Long id) throws Exception {
+    public ResponseData getByUsername(Long id) {
         Optional<User> findUser = userRepository.findById(id);
         userValidator.validateUserNotFound(findUser);
 
@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseData update(Long id, UserRequest request) throws Exception {
+    public ResponseData update(Long id, UserRequest request) {
         Optional<User> findUser = userRepository.findById(id);
         userValidator.validateUserNotFound(findUser);
 
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseData changePassword(Long id, ChangePasswordRequest request) throws Exception {
+    public ResponseData changePassword(Long id, ChangePasswordRequest request) {
         userValidator.validateUserPasswordNotMatch(request.getNewPassword(), request.getConfirmPassword());
         userValidator.validateUserCheckPasswordStrength(request.getConfirmPassword());
 
@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseData delete(Long id) throws Exception {
+    public ResponseData delete(Long id) {
         Optional<User> findUser = userRepository.findById(id);
         userValidator.validateUserNotFound(findUser);
         userValidator.validateUserIsAlreadyDeleted(findUser);

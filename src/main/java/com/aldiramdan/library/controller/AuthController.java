@@ -15,7 +15,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseData> login(@Valid @RequestBody LoginRequest request) throws Exception {
+    public ResponseEntity<ResponseData> login(@Valid @RequestBody LoginRequest request) {
         ResponseData responseData = authService.login(request);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
@@ -27,7 +27,7 @@ public class AuthController {
     }
 
     @GetMapping("/register/confirm")
-    public ResponseEntity<ResponseData> registerConfirm(@RequestParam String token) throws Exception {
+    public ResponseEntity<ResponseData> registerConfirm(@RequestParam String token) {
         ResponseData responseData = authService.registerConfirm(token);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
@@ -39,7 +39,7 @@ public class AuthController {
     }
 
     @GetMapping("/recovery/confirm")
-    public ResponseEntity<ResponseData> recoveryConfirm(@RequestParam String token) throws Exception {
+    public ResponseEntity<ResponseData> recoveryConfirm(@RequestParam String token) {
         ResponseData responseData = authService.recoveryConfirm(token);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
@@ -51,19 +51,19 @@ public class AuthController {
     }
 
     @PostMapping("/recovery/forgot-password/confirm")
-    public ResponseEntity<ResponseData> recoveryForgotPasswordConfirm(@Valid @RequestBody VerificationCodeRequest request) throws Exception {
+    public ResponseEntity<ResponseData> recoveryForgotPasswordConfirm(@Valid @RequestBody VerificationCodeRequest request) {
         ResponseData responseData = authService.recoveryForgotPasswordConfirm(request);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @PatchMapping("/recovery/reset-password")
-    public ResponseEntity<ResponseData> recoveryForgotPassword(@Valid @RequestBody ResetPasswordRequest request) throws Exception {
+    public ResponseEntity<ResponseData> recoveryForgotPassword(@Valid @RequestBody ResetPasswordRequest request) {
         ResponseData responseData = authService.recoveryResetPassword(request);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @PostMapping("/refresh-token")
-    public ResponseEntity<ResponseData> refreshToken(@RequestHeader("X-AUTH-REFRESH") String refreshToken) throws Exception {
+    public ResponseEntity<ResponseData> refreshToken(@RequestHeader("X-AUTH-REFRESH") String refreshToken) {
         ResponseData responseData = authService.refreshToken(refreshToken);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }

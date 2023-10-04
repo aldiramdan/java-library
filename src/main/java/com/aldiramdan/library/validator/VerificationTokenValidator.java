@@ -11,19 +11,19 @@ import java.util.Optional;
 
 @Service
 public class VerificationTokenValidator {
-    public void validateVerificationTokenNotFound(Optional<VerificationToken> findToken) throws Exception {
+    public void validateVerificationTokenNotFound(Optional<VerificationToken> findToken) {
         if (findToken.isEmpty()) {
             throw new NotFoundException("TokenCode is not found!");
         }
     }
 
-    public void validateVerificationTokenAlreadyConfirm(Optional<VerificationToken> findToken) throws Exception {
+    public void validateVerificationTokenAlreadyConfirm(Optional<VerificationToken> findToken) {
         if (Objects.nonNull(findToken.get().getConfirmedAt())) {
             throw new NotProcessException("Account is already verification!");
         }
     }
 
-    public void validateVerificationTokenAlreadyExpire(Optional<VerificationToken> findToken) throws Exception {
+    public void validateVerificationTokenAlreadyExpire(Optional<VerificationToken> findToken) {
         if (findToken.get().getExpiresAt().isBefore(LocalDateTime.now())) {
             throw new NotProcessException("Token is already expired!");
         }

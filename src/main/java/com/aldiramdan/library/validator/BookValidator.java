@@ -10,25 +10,25 @@ import java.util.Optional;
 
 @Service
 public class BookValidator {
-    public void validateBookNotFound(Optional<Book> findBook) throws Exception {
+    public void validateBookNotFound(Optional<Book> findBook) {
         if (findBook.isEmpty()) {
             throw new NotFoundException("Book is not found!");
         }
     }
 
-    public void validateBookIsBorrowed(Optional<Book> findBook) throws Exception {
+    public void validateBookIsBorrowed(Optional<Book> findBook) {
         if (findBook.get().getIsBorrowed()) {
             throw new NotProcessException("Book is already borrowed!");
         }
     }
 
-    public void validateBookIsAlreadyDeleted(Optional<Book> findBook) throws Exception {
+    public void validateBookIsAlreadyDeleted(Optional<Book> findBook) {
         if (Objects.nonNull(findBook.get().getIsDeleted()) && findBook.get().getIsDeleted()) {
             throw new NotProcessException("Book is already deleted!");
         }
     }
 
-    public void validateBookIsAlreadyRecovery(Optional<Book> findBook) throws Exception {
+    public void validateBookIsAlreadyRecovery(Optional<Book> findBook) {
         if (!findBook.get().getIsDeleted()) {
             throw new NotProcessException("Book is already recovered!");
         }

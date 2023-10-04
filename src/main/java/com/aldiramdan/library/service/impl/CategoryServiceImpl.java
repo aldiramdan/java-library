@@ -28,7 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public ResponseData getById(Long id) throws Exception {
+    public ResponseData getById(Long id) {
         Optional<Category> findCategory = categoryRepository.findById(id);
         categoryValidator.validateCategoryNotFound(findCategory);
 
@@ -36,7 +36,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public ResponseData add(CategoryRequest request) throws Exception {
+    public ResponseData add(CategoryRequest request) {
         Optional<Category> findCategoryByName = categoryRepository.findByName(request.getName());
         categoryValidator.validateCategoryIsExists(findCategoryByName);
 
@@ -48,7 +48,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public ResponseData update(Long id, CategoryRequest request) throws Exception {
+    public ResponseData update(Long id, CategoryRequest request) {
         Optional<Category> findCategory = categoryRepository.findById(id);
         categoryValidator.validateCategoryNotFound(findCategory);
 
@@ -63,7 +63,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public ResponseData delete(Long id) throws Exception {
+    public ResponseData delete(Long id) {
         Optional<Category> findCategory = categoryRepository.findById(id);
         categoryValidator.validateCategoryNotFound(findCategory);
         categoryValidator.validateCategoryIsAlreadyDeleted(findCategory);
@@ -75,7 +75,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public ResponseData recovery(Long id) throws Exception {
+    public ResponseData recovery(Long id) {
         Optional<Category> findCategory = categoryRepository.findById(id);
         categoryValidator.validateCategoryNotFound(findCategory);
         categoryValidator.validateCategoryIsAlreadyRecovery(findCategory);

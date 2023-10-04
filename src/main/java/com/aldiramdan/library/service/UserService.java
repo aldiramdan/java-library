@@ -6,9 +6,9 @@ import com.aldiramdan.library.model.dto.response.ResponseData;
 
 public interface UserService {
     ResponseData getAll();
-    ResponseData getById(Long id) throws Exception;
-    ResponseData getByUsername(Long id) throws Exception;
-    ResponseData update(Long id, UserRequest request) throws Exception;
-    ResponseData changePassword(Long id, ChangePasswordRequest request) throws Exception;
-    ResponseData delete(Long id) throws Exception;
+    ResponseData getById(Long id);
+    ResponseData getByUsername(Long id);
+    ResponseData update(Long id, UserRequest request);
+    ResponseData changePassword(Long id, ChangePasswordRequest request);
+    ResponseData delete(Long id);
 }

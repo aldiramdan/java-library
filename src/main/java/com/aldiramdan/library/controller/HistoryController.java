@@ -19,7 +19,7 @@ public class HistoryController {
 
     @GetMapping
     @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-    public ResponseEntity<ResponseData> getAll(@AuthenticationPrincipal User user) throws Exception {
+    public ResponseEntity<ResponseData> getAll(@AuthenticationPrincipal User user) {
         ResponseData responseData = historyService.getById(user.getId());
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }

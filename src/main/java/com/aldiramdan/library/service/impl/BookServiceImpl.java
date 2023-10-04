@@ -47,7 +47,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public ResponseData getById(Long id) throws Exception {
+    public ResponseData getById(Long id) {
         Optional<Book> findBook = bookRepository.findById(id);
         bookValidator.validateBookNotFound(findBook);
 
@@ -80,7 +80,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public ResponseData add(BookRequest request) throws Exception {
+    public ResponseData add(BookRequest request) {
         Optional<Author> findAuthor = authorRepository.findById(request.getAuthor());
         authorValidator.validateAuthorNotFound(findAuthor);
         authorValidator.validateAuthorIsAlreadyDeleted(findAuthor);
@@ -110,7 +110,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public ResponseData update(Long id, BookRequest request) throws Exception {
+    public ResponseData update(Long id, BookRequest request) {
         Optional<Book> findBook = bookRepository.findById(id);
         bookValidator.validateBookNotFound(findBook);
 
@@ -140,7 +140,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public ResponseData delete(Long id) throws Exception {
+    public ResponseData delete(Long id) {
         Optional<Book> findBook = bookRepository.findById(id);
         bookValidator.validateBookNotFound(findBook);
         bookValidator.validateBookIsAlreadyDeleted(findBook);
@@ -152,7 +152,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public ResponseData recovery(Long id) throws Exception {
+    public ResponseData recovery(Long id) {
         Optional<Book> findBook = bookRepository.findById(id);
         bookValidator.validateBookNotFound(findBook);
         bookValidator.validateBookIsAlreadyRecovery(findBook);

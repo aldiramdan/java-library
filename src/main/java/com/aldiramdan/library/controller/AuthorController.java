@@ -22,35 +22,35 @@ public class AuthorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseData> getById(@PathVariable Long id) throws Exception {
+    public ResponseEntity<ResponseData> getById(@PathVariable Long id) {
         ResponseData responseData = authorService.getById(id);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<ResponseData> create(@Valid @RequestBody AuthorRequest request) throws Exception {
+    public ResponseEntity<ResponseData> create(@Valid @RequestBody AuthorRequest request) {
         ResponseData responseData = authorService.add(request);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<ResponseData> update(@PathVariable Long id, @Valid @RequestBody AuthorRequest request) throws Exception {
+    public ResponseEntity<ResponseData> update(@PathVariable Long id, @Valid @RequestBody AuthorRequest request) {
         ResponseData responseData = authorService.update(id, request);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<ResponseData> delete(@PathVariable Long id) throws Exception {
+    public ResponseEntity<ResponseData> delete(@PathVariable Long id) {
         ResponseData responseData = authorService.delete(id);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }
 
     @PostMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<ResponseData> recovery(@PathVariable Long id) throws Exception {
+    public ResponseEntity<ResponseData> recovery(@PathVariable Long id) {
         ResponseData responseData = authorService.recovery(id);
         return ResponseEntity.status(responseData.getStatusCode()).body(responseData);
     }

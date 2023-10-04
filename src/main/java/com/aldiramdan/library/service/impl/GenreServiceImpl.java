@@ -28,7 +28,7 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public ResponseData getById(Long id) throws Exception {
+    public ResponseData getById(Long id) {
         Optional<Genre> findGenre = genreRepository.findById(id);
         genreValidator.validateGenreNotFound(findGenre);
 
@@ -36,7 +36,7 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public ResponseData add(GenreRequest request) throws Exception {
+    public ResponseData add(GenreRequest request) {
         Optional<Genre> findGenreByName = genreRepository.findByName(request.getName());
         genreValidator.validateGenreIsExists(findGenreByName);
 
@@ -48,7 +48,7 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public ResponseData update(Long id, GenreRequest request) throws Exception {
+    public ResponseData update(Long id, GenreRequest request) {
         Optional<Genre> findGenre = genreRepository.findById(id);
         genreValidator.validateGenreNotFound(findGenre);
 
@@ -63,7 +63,7 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public ResponseData delete(Long id) throws Exception {
+    public ResponseData delete(Long id) {
         Optional<Genre> findGenre = genreRepository.findById(id);
         genreValidator.validateGenreNotFound(findGenre);
         genreValidator.validateCategoryIsAlreadyDeleted(findGenre);
@@ -75,7 +75,7 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public ResponseData recovery(Long id) throws Exception {
+    public ResponseData recovery(Long id) {
         Optional<Genre> findGenre = genreRepository.findById(id);
         genreValidator.validateGenreNotFound(findGenre);
         genreValidator.validateCategoryIsAlreadyRecovery(findGenre);

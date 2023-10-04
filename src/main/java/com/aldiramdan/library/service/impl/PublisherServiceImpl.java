@@ -28,7 +28,7 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
-    public ResponseData getById(Long id) throws Exception {
+    public ResponseData getById(Long id) {
         Optional<Publisher> findPublisher = publisherRepository.findById(id);
         publisherValidator.validatePublisherNotFound(findPublisher);
 
@@ -36,7 +36,7 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
-    public ResponseData add(PublisherRequest request) throws Exception {
+    public ResponseData add(PublisherRequest request) {
         Optional<Publisher> findPublisherByName = publisherRepository.findByName(request.getName());
         publisherValidator.validatePublisherIsExists(findPublisherByName);
 
@@ -48,7 +48,7 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
-    public ResponseData update(Long id, PublisherRequest request) throws Exception {
+    public ResponseData update(Long id, PublisherRequest request) {
         Optional<Publisher> findPublisher = publisherRepository.findById(id);
         publisherValidator.validatePublisherNotFound(findPublisher);
 
@@ -63,7 +63,7 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
-    public ResponseData delete(Long id) throws Exception {
+    public ResponseData delete(Long id) {
         Optional<Publisher> findPublisher = publisherRepository.findById(id);
         publisherValidator.validatePublisherNotFound(findPublisher);
         publisherValidator.validatePublisherIsAlreadyDeleted(findPublisher);
@@ -75,7 +75,7 @@ public class PublisherServiceImpl implements PublisherService {
     }
 
     @Override
-    public ResponseData recovery(Long id) throws Exception {
+    public ResponseData recovery(Long id) {
         Optional<Publisher> findPublisher = publisherRepository.findById(id);
         publisherValidator.validatePublisherNotFound(findPublisher);
         publisherValidator.validatePublisherIsAlreadyRecovery(findPublisher);

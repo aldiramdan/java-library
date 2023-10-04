@@ -5,10 +5,10 @@ import com.aldiramdan.library.model.dto.response.ResponseData;
 
 public interface LoanService {
     ResponseData getAll();
-    ResponseData getById(Long id) throws Exception;
-    ResponseData add(LoanRequest request) throws Exception;
-    ResponseData update(Long id, LoanRequest request) throws Exception;
-    ResponseData updateStatus(Long id, LoanRequest request) throws Exception;
-    ResponseData delete(Long id) throws Exception;
-    ResponseData recovery(Long id) throws Exception;
+    ResponseData getById(Long id);
+    ResponseData add(LoanRequest request);
+    ResponseData update(Long id, LoanRequest request);
+    ResponseData updateStatus(Long id, LoanRequest request);
+    ResponseData delete(Long id);
+    ResponseData recovery(Long id);
 }

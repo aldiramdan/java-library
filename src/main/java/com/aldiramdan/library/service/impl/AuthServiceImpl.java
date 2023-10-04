@@ -43,7 +43,7 @@ public class AuthServiceImpl implements AuthService {
     private final SenderMailService senderMailService;
 
     @Override
-    public ResponseData login(LoginRequest request) throws Exception {
+    public ResponseData login(LoginRequest request) {
         Optional<User> findByUsername = userRepository.findByUsername(request.getUsername());
         userValidator.validateUserNotFound(findByUsername);
         userValidator.validateUserNotIsActives(findByUsername);
@@ -87,7 +87,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public ResponseData registerConfirm(String token) throws Exception {
+    public ResponseData registerConfirm(String token) {
         Optional<VerificationToken> findToken = verificationTokenRepository.findByToken(token);
         verificationTokenValidator.validateVerificationTokenNotFound(findToken);
         verificationTokenValidator.validateVerificationTokenAlreadyConfirm(findToken);
@@ -121,7 +121,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public ResponseData recoveryConfirm(String token) throws Exception {
+    public ResponseData recoveryConfirm(String token) {
         Optional<RecoveryToken> findToken = recoveryTokenRepository.findByToken(token);
         recoveryTokenValidator.validateRecoveryTokenNotFound(findToken);
         recoveryTokenValidator.validateRecoveryTokenAlreadyConfirm(findToken);
@@ -156,7 +156,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public ResponseData recoveryForgotPasswordConfirm(VerificationCodeRequest request) throws Exception {
+    public ResponseData recoveryForgotPasswordConfirm(VerificationCodeRequest request) {
         Optional<User> findByEmail = userRepository.findByEmail(request.getEmail());
         userValidator.validateUserNotFound(findByEmail);
 
@@ -172,7 +172,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public ResponseData recoveryResetPassword(ResetPasswordRequest request) throws Exception {
+    public ResponseData recoveryResetPassword(ResetPasswordRequest request) {
         userValidator.validateUserPasswordNotMatch(request.getNewPassword(), request.getConfirmPassword());
         userValidator.validateUserCheckPasswordStrength(request.getConfirmPassword());
 
@@ -187,7 +187,7 @@ public class AuthServiceImpl implements AuthService {
         return new ResponseData(200, "Successfully reset password", null);
     }
 
-    public ResponseData refreshToken(String authHeader) throws Exception {
+    public ResponseData refreshToken(String authHeader) {
         authValidator.validateAuthHeaderNotFound(authHeader);
         String refreshToken = authHeader.substring(7);
         String username = jwtService.extractUsername(refreshToken);
