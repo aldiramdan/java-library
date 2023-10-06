@@ -5,15 +5,12 @@ import java.util.UUID;
 
 public class GenerateRandom {
     public static String token() {
-        UUID uuid = UUID.randomUUID();
-        return uuid.toString().replace("-", "");
+        return UUID.randomUUID().toString().replace("-", "");
     }
 
     public static String code() {
-        Random random = new Random();
         int min = 100000;
         int max = 999999;
-        int randomNumber = random.nextInt(max - min + 1) + min;
-        return String.valueOf(randomNumber);
+        return String.valueOf(new Random().nextInt(max - min + 1) + min);
     }
 }
