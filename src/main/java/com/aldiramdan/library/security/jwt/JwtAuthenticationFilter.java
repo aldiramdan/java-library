@@ -31,17 +31,16 @@ import java.util.Objects;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
-    private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
         try {
-            final String authHeader = request.getHeader("X-Auth-Token");
+            final String authHeader = request.getHeader("X-AUTH-TOKEN");
             final String jwt;
             final String username;
 
             if (Arrays.stream(SecurityConfiguration.whiteListedRoutes)
-                        .anyMatch(route -> antPathMatcher.match(route, request.getServletPath())) ||
+                        .anyMatch(route -> new AntPathMatcher().match(route, request.getServletPath())) ||
                     Objects.isNull(authHeader) || !authHeader.startsWith("Bearer ")) {
                 filterChain.doFilter(request, response);
                 return;
